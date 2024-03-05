@@ -21,9 +21,13 @@ class ListeCollaborative
     #[ORM\ManyToMany(targetEntity: Utilisateur::class)]
     private Collection $utilisateur_id;
 
+    #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: 'listesCollaborative')]
+    private Collection $utilisateurs;
+
     public function __construct()
     {
         $this->utilisateur_id = new ArrayCollection();
+        $this->utilisateurs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -63,6 +67,33 @@ class ListeCollaborative
     public function removeUtilisateurId(Utilisateur $utilisateurId): static
     {
         $this->utilisateur_id->removeElement($utilisateurId);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Utilisateur>
+     */
+    public function getUtilisateurs(): Collection
+    {
+        return $this->utilisateurs;
+    }
+
+    public function addUtilisateur(Utilisateur $utilisateur): static
+    {
+        if (!$this->utilisateurs->contains($utilisateur)) {
+            $this->utilisateurs->add($utilisateur);
+            $utilisateur->addListesCollaborative($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUtilisateur(Utilisateur $utilisateur): static
+    {
+        if ($this->utilisateurs->removeElement($utilisateur)) {
+            $utilisateur->removeListesCollaborative($this);
+        }
 
         return $this;
     }

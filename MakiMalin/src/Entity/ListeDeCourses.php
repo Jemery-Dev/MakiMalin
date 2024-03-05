@@ -24,6 +24,10 @@ class ListeDeCourses
     #[ORM\OneToMany(targetEntity: Course::class, mappedBy: 'liste_id', orphanRemoval: true)]
     private Collection $courses;
 
+    #[ORM\ManyToOne(inversedBy: 'listesDeCourse')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Utilisateur $utilisateur = null;
+
     public function __construct()
     {
         $this->courses = new ArrayCollection();
@@ -84,6 +88,18 @@ class ListeDeCourses
                 $course->setListeId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): static
+    {
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }
