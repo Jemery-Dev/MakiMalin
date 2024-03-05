@@ -20,28 +20,38 @@ class RegistrationFormType extends AbstractType
             ->add('plainPassword', PasswordType::class, [
                 'label' => 'Mot de passe',
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'toggle' => true, // On ajoute tout ça pour pouvoir afficher/masquer le password
+                'hidden_label' => 'Masquer',
+                'visible_label' => 'Afficher',
+                'visible_icon' => null,
+                'hidden_icon' => null,
+                'attr' => ['autocomplete' => 'new-password'], // On laisse l'option google pour avoir un mot de passe pré-défini
                 'constraints' => [
-                    new NotBlank([
+                    new NotBlank([ // Contrainte si le mot n'existe pas
                         'message' => 'Entrer un mot de passe',
-                    ]),
-                    new Length([
+                    ]), 
+                    new Length([ // Contrainte pour la taille 
                         'min' => 6,
                         'minMessage' => 'Votre mot de passe doit contenir au moins 6 caractères',
                         'max' => 4096,
                     ]),
                 ],
             ])
-            ->add('plainPasswordConfirm', PasswordType::class, [
+            ->add('plainPasswordConfirm', PasswordType::class, [ // On ajoute une confirmation de mot de passe
                 'label' => 'Confirmer le mot de passe',
-                'mapped' => false,
+                'mapped' => false, // Même propriété
+                'toggle' => true,
+                'hidden_label' => 'Masquer',
+                'visible_label' => 'Afficher',
+                'visible_icon' => null,
+                'hidden_icon' => null,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Confirmer votre mot de passe',
                     ]),
-                    new EqualTo([
-                        'propertyPath' => 'plainPassword',
-                        'message' => 'Les mots de passe ne correspondent pas',
+                    new EqualTo([ // On ajoute une contrainte EqualTo qui vérifie si plainPassword = plainPasswordConfirm
+                        'propertyPath' => 'plainPassword', // La valeur qu'on compare
+                        'message' => 'Les mots de passe ne correspondent pas', // Le message en cas de pas égal
                     ]),
                 ],
             ]);

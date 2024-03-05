@@ -24,12 +24,16 @@
                 {{ form_row(registrationForm.plainPassword, {
                     'label': 'Mot de passe'
                 }) }}
+                <button type="button" class="toggle-password">Afficher/Masquer</button>
             </div>
+
+
 
             <div class="confirm-password">
                 {{ form_row(registrationForm.plainPasswordConfirm, {
                     'label': 'Confirmer le mot de passe'
                 }) }}
+                <button type="button" class="confirm-toggle-password">Afficher/Masquer</button>
             </div>
 
             <div class="submit">
@@ -38,4 +42,26 @@
             {{ form_end(registrationForm) }}
         </div>
     </div>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() { // Script pour afficher/masquer les mot de passes
+            // On récupère les boutons et les inputs
+            const togglePassword = document.querySelector('.toggle-password');
+            const confirmTogglePassword = document.querySelector('.confirm-toggle-password');
+            const passwordInput = document.querySelector('#{{ registrationForm.plainPassword.vars.id }}');
+            const confirmPasswordInput = document.querySelector('#{{ registrationForm.plainPasswordConfirm.vars.id }}'); 
+            
+
+            togglePassword.addEventListener('click', function() { // Fonction pour le mot de passe
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password'; // On attribue text ou mot de passe en fonction de l'état précédent 
+                passwordInput.setAttribute('type', type); // On set l'attribut
+            });
+
+            confirmTogglePassword.addEventListener('click', function() { // Même fonction mais pour la confirmation
+                const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                confirmPasswordInput.setAttribute('type', type);
+            });
+        });
+    </script>
 {% endblock %}
+
