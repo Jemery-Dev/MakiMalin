@@ -1,17 +1,41 @@
 {% extends 'base.html.twig' %}
-{% block title %}S'inscrire - Maki Malin {% endblock %}
+
+{% block title %}S'inscrire - Maki Malin{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/inscription.css') }}">
+{% endblock %}
+
 {% block body %}
-    <h1>S'inscrire</h1>
     <div class="container">
-    {{ form_errors(registrationForm) }}
+        <h1>Inscription</h1>
+        <div class="form">
+            {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.username) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Mot de passe'
-        }) }}
+            {{ form_start(registrationForm) }}
+            <div class="username">
+                {{ form_row(registrationForm.username, {
+                    'label': 'Nom d\'utilisateur',
+                    'attr': {'class': 'registration-form', 'id': 'username' }
+                }) }}
+            </div>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            <div class="password">
+                {{ form_row(registrationForm.plainPassword, {
+                    'label': 'Mot de passe'
+                }) }}
+            </div>
+
+            <div class="confirm-password">
+                {{ form_row(registrationForm.plainPasswordConfirm, {
+                    'label': 'Confirmer le mot de passe'
+                }) }}
+            </div>
+
+            <div class="submit">
+                <button type="submit" class="btn">S'inscrire</button>
+            </div>
+            {{ form_end(registrationForm) }}
+        </div>
     </div>
 {% endblock %}
