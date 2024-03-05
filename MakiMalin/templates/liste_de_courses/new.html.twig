@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ListeDeCourses{% endblock %}
+
+{% block body %}
+    <h1>Create new ListeDeCourses</h1>
+
+    {{ include('liste_de_courses/_form.html.twig') }}
+
+    <a href="{{ path('app_liste_de_courses_index') }}">back to list</a>
+{% endblock %}

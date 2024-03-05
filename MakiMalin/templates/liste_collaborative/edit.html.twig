@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit ListeCollaborative{% endblock %}
+
+{% block body %}
+    <h1>Edit ListeCollaborative</h1>
+
+    {{ include('liste_collaborative/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_liste_collaborative_index') }}">back to list</a>
+
+    {{ include('liste_collaborative/_delete_form.html.twig') }}
+{% endblock %}

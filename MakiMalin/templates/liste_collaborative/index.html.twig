@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ListeCollaborative index{% endblock %}
+
+{% block body %}
+    <h1>ListeCollaborative index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for liste_collaborative in liste_collaboratives %}
+            <tr>
+                <td>{{ liste_collaborative.id }}</td>
+                <td>
+                    <a href="{{ path('app_liste_collaborative_show', {'id': liste_collaborative.id}) }}">show</a>
+                    <a href="{{ path('app_liste_collaborative_edit', {'id': liste_collaborative.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_liste_collaborative_new') }}">Create new</a>
+{% endblock %}

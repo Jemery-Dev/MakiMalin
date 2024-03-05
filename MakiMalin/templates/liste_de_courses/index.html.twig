@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ListeDeCourses index{% endblock %}
+
+{% block body %}
+    <h1>ListeDeCourses index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for liste_de_course in liste_de_courses %}
+            <tr>
+                <td>{{ liste_de_course.id }}</td>
+                <td>{{ liste_de_course.nom }}</td>
+                <td>
+                    <a href="{{ path('app_liste_de_courses_show', {'id': liste_de_course.id}) }}">show</a>
+                    <a href="{{ path('app_liste_de_courses_edit', {'id': liste_de_course.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_liste_de_courses_new') }}">Create new</a>
+{% endblock %}

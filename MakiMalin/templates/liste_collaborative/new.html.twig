@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ListeCollaborative{% endblock %}
+
+{% block body %}
+    <h1>Create new ListeCollaborative</h1>
+
+    {{ include('liste_collaborative/_form.html.twig') }}
+
+    <a href="{{ path('app_liste_collaborative_index') }}">back to list</a>
+{% endblock %}
