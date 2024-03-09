@@ -3,28 +3,35 @@
 {% block title %}S'inscrire - Maki Malin{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/css/inscription.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/inscription.css') }}">
 {% endblock %}
 
 {% block body %}
+    {% include "header.html.twig" %}
+    <menu>
     <div class="container">
         <h1>Inscription</h1>
         <div class="form">
             {{ form_errors(registrationForm) }}
 
             {{ form_start(registrationForm) }}
-            <div class="username">
                 {{ form_row(registrationForm.username, {
                     'label': 'Nom d\'utilisateur',
                     'attr': {'class': 'registration-form', 'id': 'username' }
                 }) }}
-            </div>
 
             <div class="password">
                 {{ form_row(registrationForm.plainPassword, {
                     'label': 'Mot de passe'
                 }) }}
-                <button type="button" class="toggle-password">Afficher/Masquer</button>
+                <button type="button" class="toggle-password">
+                        <div class="contour-oeil">
+                            <div class="point1 droit"></div>
+                        </div>
+                        <div  class="contour-oeil">
+                            <div class="point1 droit"></div>
+                        </div>
+                </button>
             </div>
 
 
@@ -33,7 +40,14 @@
                 {{ form_row(registrationForm.plainPasswordConfirm, {
                     'label': 'Confirmer le mot de passe'
                 }) }}
-                <button type="button" class="confirm-toggle-password">Afficher/Masquer</button>
+                <button type="button" class="confirm-toggle-password">
+                        <div class="contour-oeil">
+                            <div class="point2 droit"></div>
+                        </div>
+                        <div  class="contour-oeil">
+                            <div class="point2 droit"></div>
+                        </div>
+                </button>
             </div>
 
             <div class="submit">
@@ -43,21 +57,49 @@
         </div>
     </div>
 
+    <img src="{{asset('images/sushiii.png')}}" alt="sushi" class="img1"/>
+    <img src="{{asset('images/sushi2.png')}}" alt="sushi"  class="img2" />
+    <img src="{{asset('images/sushiCute.png')}}" alt="sushi" class="img3" />
+
+    </menu>
+
         <script>
         document.addEventListener('DOMContentLoaded', function() { // Script pour afficher/masquer les mot de passes
             // On récupère les boutons et les inputs
             const togglePassword = document.querySelector('.toggle-password');
             const confirmTogglePassword = document.querySelector('.confirm-toggle-password');
             const passwordInput = document.querySelector('#{{ registrationForm.plainPassword.vars.id }}');
-            const confirmPasswordInput = document.querySelector('#{{ registrationForm.plainPasswordConfirm.vars.id }}'); 
+            const confirmPasswordInput = document.querySelector('#{{ registrationForm.plainPasswordConfirm.vars.id }}');
+            const pointYeux1 = document.getElementsByClassName('point1');
+            const pointYeux2 = document.getElementsByClassName('point2');
             
 
             togglePassword.addEventListener('click', function() { // Fonction pour le mot de passe
+                [].forEach.call(pointYeux1, point => {
+                    if(point.classList.contains('gauche')){
+                        point.classList.remove('gauche');
+                        point.classList.add('droit');
+                    }else{
+                        point.classList.remove('droit');
+                        point.classList.add('gauche');
+                    }
+                });
+
                 const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password'; // On attribue text ou mot de passe en fonction de l'état précédent 
                 passwordInput.setAttribute('type', type); // On set l'attribut
             });
 
             confirmTogglePassword.addEventListener('click', function() { // Même fonction mais pour la confirmation
+                [].forEach.call(pointYeux2, point => {
+                    if(point.classList.contains('gauche')){
+                        point.classList.remove('gauche');
+                        point.classList.add('droit');
+                    }else{
+                        point.classList.remove('droit');
+                        point.classList.add('gauche');
+                    }
+                });
+
                 const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
                 confirmPasswordInput.setAttribute('type', type);
             });
