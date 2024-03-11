@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Form;
-
-use App\Entity\Utilisateur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -10,6 +8,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\EqualTo;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormError;
+use App\Entity\Utilisateur;
+use Symfony\Component\Validator\Constraints\Callback;
+use ExecutionContextInterface;
 
 class RegistrationFormType extends AbstractType
 {
@@ -49,18 +53,41 @@ class RegistrationFormType extends AbstractType
                     new NotBlank([
                         'message' => 'Confirmer votre mot de passe',
                     ]),
-                    new EqualTo([ // On ajoute une contrainte EqualTo qui vérifie si plainPassword = plainPasswordConfirm
-                        'propertyPath' => 'plainPassword', // La valeur qu'on compare
-                        'message' => 'Les mots de passe ne correspondent pas', // Le message en cas de pas égal
-                    ]),
                 ],
-            ]);
+            ])
+            ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+                $form = $event->getForm();
+        
+                $plainPassword = $form["plainPassword"]->getData();
+                $plainPasswordConfirm = $form["plainPasswordConfirm"]->getData();
+
+                if ($plainPassword !== $plainPasswordConfirm) {
+                    $form->get('username')->clearErrors();
+                    $form->get('plainPassword')->clearErrors();
+                    $form["plainPasswordConfirm"]->addError(new FormError('Les mots de passes ne correspondent pas'));
+                }
+            })
+
+            ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+                $form = $event->getForm();
+                $data = $event->getData();
+                
+                if (!empty($data['username'])){
+                    $form->get('username')->clearErrors();
+                }
+
+                if (!empty($data['plainPassword']) || !empty($data['plainPasswordConfirm'])) {
+
+                    $form->get('plainPasswordConfirm')->clearErrors();
+                }
+            });
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Utilisateur::class,
+            'validation_groups'=> ['Default'],
         ]);
     }
 }
