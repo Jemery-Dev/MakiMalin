@@ -147,6 +147,19 @@ body{
                         margin-top: 5%;
                         display: flex;
 
+                        ul{
+                            position: relative;
+                            font-size: 12px;
+                            list-style-type: none;
+                        
+                            li{
+                                color: red;
+                                width: 500px;
+                                position: absolute;
+                                top: 112%;
+                            }
+                        }
+
                         .toggle-password, .confirm-toggle-password{
                             display: flex;
                             align-items: center;
