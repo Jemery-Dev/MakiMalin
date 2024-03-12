@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240305132543 extends AbstractMigration
+final class Version20240312133025 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -26,8 +26,10 @@ final class Version20240305132543 extends AbstractMigration
         $this->addSql('CREATE TABLE course (id INT AUTO_INCREMENT NOT NULL, liste_id_id INT NOT NULL, quantite INT DEFAULT NULL, achete TINYINT(1) NOT NULL, INDEX IDX_169E6FB960BF4AF9 (liste_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE liste_collaborative (id INT AUTO_INCREMENT NOT NULL, liste_id_id INT DEFAULT NULL, UNIQUE INDEX UNIQ_AB46A8D260BF4AF9 (liste_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE liste_collaborative_utilisateur (liste_collaborative_id INT NOT NULL, utilisateur_id INT NOT NULL, INDEX IDX_4DCD4AE5112DF681 (liste_collaborative_id), INDEX IDX_4DCD4AE5FB88E14F (utilisateur_id), PRIMARY KEY(liste_collaborative_id, utilisateur_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE liste_de_courses (id INT AUTO_INCREMENT NOT NULL, proprietaire_id_id INT DEFAULT NULL, nom VARCHAR(255) NOT NULL, INDEX IDX_8757F1596EC1D6E1 (proprietaire_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE utilisateur (id INT AUTO_INCREMENT NOT NULL, pseudo VARCHAR(255) NOT NULL, motdepasse VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE liste_de_courses (id INT AUTO_INCREMENT NOT NULL, proprietaire_id_id INT DEFAULT NULL, utilisateur_id INT NOT NULL, nom VARCHAR(255) NOT NULL, INDEX IDX_8757F1596EC1D6E1 (proprietaire_id_id), INDEX IDX_8757F159FB88E14F (utilisateur_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE utilisateur (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_1D1C63B3F85E0677 (username), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE utilisateur_liste_collaborative (utilisateur_id INT NOT NULL, liste_collaborative_id INT NOT NULL, INDEX IDX_16377402FB88E14F (utilisateur_id), INDEX IDX_16377402112DF681 (liste_collaborative_id), PRIMARY KEY(utilisateur_id, liste_collaborative_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE messenger_messages (id BIGINT AUTO_INCREMENT NOT NULL, body LONGTEXT NOT NULL, headers LONGTEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', available_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', delivered_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_75EA56E0FB7336F0 (queue_name), INDEX IDX_75EA56E0E3BD61CE (available_at), INDEX IDX_75EA56E016BA31DB (delivered_at), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE article_categorie_article ADD CONSTRAINT FK_94A2D4397294869C FOREIGN KEY (article_id) REFERENCES article (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE article_categorie_article ADD CONSTRAINT FK_94A2D439EC5D4C30 FOREIGN KEY (categorie_article_id) REFERENCES categorie_article (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE course ADD CONSTRAINT FK_169E6FB960BF4AF9 FOREIGN KEY (liste_id_id) REFERENCES liste_de_courses (id)');
@@ -35,6 +37,9 @@ final class Version20240305132543 extends AbstractMigration
         $this->addSql('ALTER TABLE liste_collaborative_utilisateur ADD CONSTRAINT FK_4DCD4AE5112DF681 FOREIGN KEY (liste_collaborative_id) REFERENCES liste_collaborative (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE liste_collaborative_utilisateur ADD CONSTRAINT FK_4DCD4AE5FB88E14F FOREIGN KEY (utilisateur_id) REFERENCES utilisateur (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE liste_de_courses ADD CONSTRAINT FK_8757F1596EC1D6E1 FOREIGN KEY (proprietaire_id_id) REFERENCES utilisateur (id)');
+        $this->addSql('ALTER TABLE liste_de_courses ADD CONSTRAINT FK_8757F159FB88E14F FOREIGN KEY (utilisateur_id) REFERENCES utilisateur (id)');
+        $this->addSql('ALTER TABLE utilisateur_liste_collaborative ADD CONSTRAINT FK_16377402FB88E14F FOREIGN KEY (utilisateur_id) REFERENCES utilisateur (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE utilisateur_liste_collaborative ADD CONSTRAINT FK_16377402112DF681 FOREIGN KEY (liste_collaborative_id) REFERENCES liste_collaborative (id) ON DELETE CASCADE');
     }
 
     public function down(Schema $schema): void
@@ -47,6 +52,9 @@ final class Version20240305132543 extends AbstractMigration
         $this->addSql('ALTER TABLE liste_collaborative_utilisateur DROP FOREIGN KEY FK_4DCD4AE5112DF681');
         $this->addSql('ALTER TABLE liste_collaborative_utilisateur DROP FOREIGN KEY FK_4DCD4AE5FB88E14F');
         $this->addSql('ALTER TABLE liste_de_courses DROP FOREIGN KEY FK_8757F1596EC1D6E1');
+        $this->addSql('ALTER TABLE liste_de_courses DROP FOREIGN KEY FK_8757F159FB88E14F');
+        $this->addSql('ALTER TABLE utilisateur_liste_collaborative DROP FOREIGN KEY FK_16377402FB88E14F');
+        $this->addSql('ALTER TABLE utilisateur_liste_collaborative DROP FOREIGN KEY FK_16377402112DF681');
         $this->addSql('DROP TABLE article');
         $this->addSql('DROP TABLE article_categorie_article');
         $this->addSql('DROP TABLE categorie_article');
@@ -55,5 +63,7 @@ final class Version20240305132543 extends AbstractMigration
         $this->addSql('DROP TABLE liste_collaborative_utilisateur');
         $this->addSql('DROP TABLE liste_de_courses');
         $this->addSql('DROP TABLE utilisateur');
+        $this->addSql('DROP TABLE utilisateur_liste_collaborative');
+        $this->addSql('DROP TABLE messenger_messages');
     }
 }
