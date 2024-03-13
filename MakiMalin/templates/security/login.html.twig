@@ -1,0 +1,44 @@
+{# templates/security/login.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion - Maki Malin{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/inscription.css') }}">
+{% endblock %}
+
+{% block body %}
+<menu>
+    <div class="container">
+        <h1>Connexion</h1>
+        <div class="form f2">
+            {{ form_start(loginForm) }}
+                {{ form_row(loginForm.username, {
+                    'label': 'Nom d\'utilisateur',
+                    'attr': {'class': 'registration-form', 'id': 'username' }
+                }) }}
+
+            <div class="password">
+                {{ form_row(loginForm.password, {
+                    'label': 'Mot de passe'
+                }) }}
+                <button type="button" class="toggle-password">
+                        <div class="contour-oeil">
+                            <div class="point1 droit"></div>
+                        </div>
+                        <div  class="contour-oeil">
+                            <div class="point1 droit"></div>
+                        </div>
+                </button>
+            </div>
+
+            
+            <div class="submit">
+                <button type="submit" class="btn">Se connecter</button>
+            </div>
+            {{ form_end(loginForm) }}
+        </div>
+    </div>
+</menu>
+{% endblock %}
