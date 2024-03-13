@@ -17,12 +17,12 @@ class ListeCollaborativeType extends AbstractType
         $builder
             ->add('liste_id', EntityType::class, [
                 'class' => ListeDeCourses::class,
-'choice_label' => 'id',
+                'choice_label' => 'id',
             ])
             ->add('utilisateur_id', EntityType::class, [
                 'class' => Utilisateur::class,
-'choice_label' => 'id',
-'multiple' => true,
+                'choice_label' => 'id',
+                'multiple' => true,
             ])
         ;
     }
