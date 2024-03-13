@@ -41,4 +41,34 @@
         </div>
     </div>
 </menu>
+
+
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() { // Script pour afficher/masquer les mot de passes
+            // On récupère les boutons et les inputs
+            const togglePassword = document.querySelector('.toggle-password');
+            const confirmTogglePassword = document.querySelector('.confirm-toggle-password');
+            const passwordInput = document.querySelector('#{{ loginForm.password.vars.id }}');
+            const pointYeux1 = document.getElementsByClassName('point1');
+            const pointYeux2 = document.getElementsByClassName('point2');
+            
+
+            togglePassword.addEventListener('click', function() { // Fonction pour le mot de passe
+                [].forEach.call(pointYeux1, point => {
+                    if(point.classList.contains('gauche')){
+                        point.classList.remove('gauche');
+                        point.classList.add('droit');
+                    }else{
+                        point.classList.remove('droit');
+                        point.classList.add('gauche');
+                    }
+                });
+
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password'; // On attribue text ou mot de passe en fonction de l'état précédent 
+                passwordInput.setAttribute('type', type); // On set l'attribut
+            });
+        });
+    </script>
 {% endblock %}
+
