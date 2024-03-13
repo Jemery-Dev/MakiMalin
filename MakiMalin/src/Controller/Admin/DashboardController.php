@@ -20,15 +20,15 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        $user = $this->getUser();
-        if ($user && $user->getUsername() === 'minH') {
+        //$user = $this->getUser();
+        //if ($user && $user->getUsername() === 'minH') {
             $routeBuilder = $this->container->get(AdminUrlGenerator::class);
             $routeBuilder->setController(ArticleCrudController::class);
             $url = $routeBuilder->generateUrl();
             return $this->redirect($url);
-        } else {
-            throw $this->createAccessDeniedException('Access Denied');
-        }
+        //} else {
+            //throw $this->createAccessDeniedException('Access Denied');
+        //}
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //

@@ -21,6 +21,15 @@ class CategorieArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, CategorieArticle::class);
     }
 
+    public function findAllNames(): array
+        {
+            return $this->createQueryBuilder('c')
+                ->select('c.nom')
+                ->getQuery()
+                ->getResult();
+        }
+
+
 //    /**
 //     * @return CategorieArticle[] Returns an array of CategorieArticle objects
 //     */
