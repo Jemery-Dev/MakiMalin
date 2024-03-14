@@ -6,12 +6,18 @@
 
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! </h1>
+    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+        <h1>Hello {{ app.user.username }}!</h1>
+    {% endif %}
 
     This friendly message is coming from:
     <ul>
         <li>Your controller at <code>C:/wamp64/www/Symfony/Maki malin/MakiMalin/MakiMalin/src/Controller/HomeController.php</code></li>
         <li>Your template at <code>C:/wamp64/www/Symfony/Maki malin/MakiMalin/MakiMalin/templates/home/index.html.twig</code></li>
     </ul>
+    <a href="{{path("app_liste_de_courses_index")}}">12</a>
+    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+        <a href="{{ logout_path('main') }}" class="btn btn-primary">Deconnexion</a>
+    {% endif %}
 </div>
 {% endblock %}

@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block body %}
-    {% include "header.html.twig" %}
     <menu>
     <div class="container">
         <h1>Inscription</h1>
@@ -27,9 +26,11 @@
                 <button type="button" class="toggle-password">
                         <div class="contour-oeil">
                             <div class="point1 droit"></div>
+                            <div class="paupiere1 p1"></div>
                         </div>
                         <div  class="contour-oeil">
                             <div class="point1 droit"></div>
+                            <div class="paupiere1 p1"></div>
                         </div>
                 </button>
             </div>
@@ -43,9 +44,11 @@
                 <button type="button" class="confirm-toggle-password">
                         <div class="contour-oeil">
                             <div class="point2 droit"></div>
+                            <div class="paupiere2 p1"></div>
                         </div>
                         <div  class="contour-oeil">
                             <div class="point2 droit"></div>
+                            <div class="paupiere2 p1"></div>
                         </div>
                 </button>
             </div>
@@ -72,6 +75,8 @@
             const confirmPasswordInput = document.querySelector('#{{ registrationForm.plainPasswordConfirm.vars.id }}');
             const pointYeux1 = document.getElementsByClassName('point1');
             const pointYeux2 = document.getElementsByClassName('point2');
+            const paupiere1 = document.getElementsByClassName('paupiere1');
+            const paupiere2 = document.getElementsByClassName('paupiere2');
             
 
             togglePassword.addEventListener('click', function() { // Fonction pour le mot de passe
@@ -82,6 +87,16 @@
                     }else{
                         point.classList.remove('droit');
                         point.classList.add('gauche');
+                    }
+                });
+
+                [].forEach.call(paupiere1, caca => {
+                    if(caca.classList.contains('p1')){
+                        caca.classList.remove('p1');
+                        caca.classList.add('p2');
+                    }else{
+                        caca.classList.remove('p2');
+                        caca.classList.add('p1');
                     }
                 });
 
