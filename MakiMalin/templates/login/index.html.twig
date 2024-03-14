@@ -18,6 +18,19 @@
         <input type="hidden" name="_target_path" value="/account"> #}
 
         <button type="submit">login</button>
-        <p>{{user}}</p>
+        
     </form>
+
+
+    {% if user %}
+    <h3>Liste des utilisateurs :</h3>
+    <ul>
+        {% for u in user %}
+            <li>{{ u.username }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Aucun utilisateur trouvé.</p>
+{% endif %}
+
 {% endblock %}
