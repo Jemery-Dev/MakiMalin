@@ -8,6 +8,7 @@ use App\Entity\Utilisateur;
 use App\Entity\ListeDeCourses;
 use App\Entity\ListeCollaborative;
 use App\Entity\Course;
+use App\Entity\Magasin;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -62,5 +63,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Liste de Courses', 'fas fa-list', ListeDeCourses::class);
         yield MenuItem::linkToCrud('Courses', 'fas fa-filter', Course::class);
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-circle-user', Utilisateur::class);
+        yield MenuItem::linkToCrud('Magasin', 'fas fa-shop', Magasin::class);
     }
 }

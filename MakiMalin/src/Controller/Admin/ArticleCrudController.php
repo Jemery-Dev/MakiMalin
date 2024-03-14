@@ -25,7 +25,8 @@ class ArticleCrudController extends AbstractCrudController
             TextField::new('image'),
             MoneyField ::new('prix')->setCurrency('EUR'),
             TextField::new('description'),
-            AssociationField::new('categorie_id')
+            AssociationField::new('categorie_id'),
+            AssociationField::new('magasin')
         ];
     }
 }
