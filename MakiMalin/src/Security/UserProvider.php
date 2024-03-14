@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\Utilisateur;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
