@@ -5,10 +5,44 @@
 <head>
     <meta charset="UTF-8" />
     <title>Erreur {{ statusCode }} - MakiMalin</title>
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/erreur.css') }}">
 </head>
 <body>
-    <h1>Erreur {{ statusCode }}</h1>
-    <p>Nous sommes désolés, mais une erreur s'est produite.</p>
-    <p>Veuillez contacter l'administrateur du site pour plus d'informations.</p>
+{% include "header.html.twig" %}
+<menu>
+    {% if statusCode == 404 %}
+
+    <div class="err404">
+
+   
+
+
+        <h1>
+            4 
+            <img src="{{ asset('images/0-err404.png') }}" alt="0">
+            4
+        </h1>
+
+        <h2>Oops !! Une MakiBetise s'est produite, revenez a l'accueil</h2>
+
+        <a href="{{ path('app_home') }}">Accueil</a>
+
+    </div>
+
+    {% else %}
+
+    <div class="err">
+
+        <h1>Oh ! Vous avez du vous perdre en allant faire vos courses</h1>
+
+        <a href="{{ path('app_home') }}">Accueil</a>
+    
+    </div>
+
+    {% endif %}
+
+</menu>
+
 </body>
 </html>
