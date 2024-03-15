@@ -9,12 +9,20 @@
     <link rel="stylesheet" href="{{ asset('css/erreur.css') }}">
 </head>
 <body>
+{% include "header.html.twig" %}
 <menu>
     {% if statusCode == 404 %}
 
     <div class="err404">
 
-        <h1>404</h1>
+   
+
+
+        <h1>
+            4 
+            <img src="{{ asset('images/0-err404.png') }}" alt="0">
+            4
+        </h1>
 
         <h2>Oops !! Une MakiBetise s'est produite, revenez a l'accueil</h2>
 
@@ -36,7 +44,5 @@
 
 </menu>
 
-
-    
 </body>
 </html>
