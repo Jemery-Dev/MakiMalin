@@ -1,34 +1,82 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion - Maki Malin{% endblock %}
+
+{% block stylesheets %} <link rel="stylesheet" href="{{ asset('css/inscription.css') }}">{% endblock %}
 
 {% block body %}
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
+<menu>
+
+    <div class="container">
+    <h1>Connexion</h1>
+
+    <div class="form f2">
 
     <form action="{{ path('app_login') }}" method="post">
+    <div>
         <label for="username">Utilisateur</label>
         <input type="text" id="username" name="_username" value="{{ last_username }}">
+    </div>
 
+    <div>
         <label for="password">Mot de passe</label>
         <input type="password" id="password" name="_password">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <button type="button" class="toggle-password">
+                <div class="contour-oeil">
+                    <div class="point1 droit"></div>
+                </div>
+                <div  class="contour-oeil">
+                    <div class="point1 droit"></div>
+                </div>
+        </button>
+    </div>
 
-        <button type="submit">Se connecter</button>
+    <div class="submit">
+        <button type="submit" class="btn">Se connecter</button>
+    </div>
+
         
     </form>
 
+    </div>
 
-    {% if user %}
-    <h3>Liste des utilisateurs :</h3>
-    <ul>
-        {% for u in user %}
-            <li>{{ u.username }}</li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Aucun utilisateur trouvé.</p>
-{% endif %}
+    </div>
+
+    <img src="{{asset('images/sushiii.png')}}" alt="sushi" class="img1"/>
+    <img src="{{asset('images/sushi2.png')}}" alt="sushi"  class="img2" />
+    <img src="{{asset('images/sushiCute.png')}}" alt="sushi" class="img3" />
+</menu>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() { // Script pour afficher/masquer les mot de passes
+            // On récupère les boutons et les inputs
+            const togglePassword = document.querySelector('.toggle-password');
+            const passwordInput = document.querySelector('#password');
+            const pointYeux1 = document.getElementsByClassName('point1');
+
+            
+
+            togglePassword.addEventListener('click', function() { // Fonction pour le mot de passe
+                [].forEach.call(pointYeux1, point => {
+                    if(point.classList.contains('gauche')){
+                        point.classList.remove('gauche');
+                        point.classList.add('droit');
+                    }else{
+                        point.classList.remove('droit');
+                        point.classList.add('gauche');
+                    }
+                });
+
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password'; // On attribue text ou mot de passe en fonction de l'état précédent 
+                passwordInput.setAttribute('type', type); // On set l'attribut
+            });
+
+
+        });
+    </script>
 
 {% endblock %}

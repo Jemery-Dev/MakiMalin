@@ -264,6 +264,7 @@ body{
                             font-family: Minecraft;
                             font-size: 21px;
                             font-weight: 400;
+                            cursor: pointer;
                         }
                     }
                 }
