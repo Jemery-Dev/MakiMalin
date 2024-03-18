@@ -1,7 +1,5 @@
-
-
 body{
-    font-family: 'Minecraft';
+    font-family: Minecraft;
 
     header{
         background: #FFBD95;
@@ -30,5 +28,10 @@ body{
             left: 15%;
 
         }
+    }
+    
+    @font-face {
+        font-family: 'Minecraft';
+        src: url('/font/minecraft_font.ttf');
     }
 }

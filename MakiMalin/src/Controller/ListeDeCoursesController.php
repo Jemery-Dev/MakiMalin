@@ -9,16 +9,20 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/liste/de/courses')]
+
+
 class ListeDeCoursesController extends AbstractController
 {
     #[Route('/', name: 'app_liste_de_courses_index', methods: ['GET'])]
     public function index(ListeDeCoursesRepository $listeDeCoursesRepository): Response
     {
+        $listeDeCourses = $listeDeCoursesRepository->findAll();
+
         return $this->render('liste_de_courses/index.html.twig', [
-            'liste_de_courses' => $listeDeCoursesRepository->findAll(),
+            'liste_de_courses' => $listeDeCourses,
         ]);
     }
 
@@ -71,7 +75,7 @@ class ListeDeCoursesController extends AbstractController
     #[Route('/{id}', name: 'app_liste_de_courses_delete', methods: ['POST'])]
     public function delete(Request $request, ListeDeCourses $listeDeCourse, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$listeDeCourse->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $listeDeCourse->getId(), $request->request->get('_token'))) {
             $entityManager->remove($listeDeCourse);
             $entityManager->flush();
         }

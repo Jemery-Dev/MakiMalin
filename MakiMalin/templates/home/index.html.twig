@@ -1,17 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Liste des Courses{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/accueil.css') }}">
+{% endblock %}
 
 {% block body %}
+    {% include "header.html.twig" %}
 
+    <h1>Liste des Courses</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! </h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Action</th> 
+            </tr>
+        </thead>
+        <tbody>
+            {% for liste_de_course in liste_de_courses %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ liste_de_course.nom }}</td>
+                    <td>
+                        <form action="{{ path('app_liste_de_courses_delete', {'id': liste_de_course.id}) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette liste ?');">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ liste_de_course.id) }}">
+                            <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/Symfony/Maki malin/MakiMalin/MakiMalin/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/Symfony/Maki malin/MakiMalin/MakiMalin/templates/home/index.html.twig</code></li>
-    </ul>
-</div>
+    <a href="{{ path('app_liste_de_courses_new') }}" class="btn btn-primary">Ajouter une liste</a>
+
+    
 {% endblock %}
