@@ -14,13 +14,17 @@ use App\Entity\Article;
 use App\Entity\Course;
 
 #[Route('/liste/de/courses')]
+
+
 class ListeDeCoursesController extends AbstractController
 {
     #[Route('/', name: 'app_liste_de_courses_index', methods: ['GET'])]
     public function index(ListeDeCoursesRepository $listeDeCoursesRepository): Response
     {
+        $listeDeCourses = $listeDeCoursesRepository->findAll();
+
         return $this->render('liste_de_courses/index.html.twig', [
-            'liste_de_courses' => $listeDeCoursesRepository->findAll(),
+            'liste_de_courses' => $listeDeCourses,
         ]);
     }
 
@@ -73,7 +77,7 @@ class ListeDeCoursesController extends AbstractController
     #[Route('/{id}', name: 'app_liste_de_courses_delete', methods: ['POST'])]
     public function delete(Request $request, ListeDeCourses $listeDeCourse, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$listeDeCourse->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $listeDeCourse->getId(), $request->request->get('_token'))) {
             $entityManager->remove($listeDeCourse);
             $entityManager->flush();
         }
@@ -82,32 +86,32 @@ class ListeDeCoursesController extends AbstractController
     }
 
     #[Route('/{id}/detail', name: 'app_liste_de_courses_detail', methods: ['GET', 'POST'])]
-public function detail(ListeDeCourses $listeDeCourse, Request $request, EntityManagerInterface $entityManager): Response
-{
+    public function detail(ListeDeCourses $listeDeCourse, Request $request, EntityManagerInterface $entityManager): Response
+    {
 
-    $articles = $entityManager->getRepository(Article::class)->findAll();
+        $articles = $entityManager->getRepository(Article::class)->findAll();
 
-    if ($request->isMethod('POST')) {
-        $articleId = $request->request->get('article_id');
+        if ($request->isMethod('POST')) {
+            $articleId = $request->request->get('article_id');
 
-        $article = $entityManager->getRepository(Article::class)->find($articleId);
+            $article = $entityManager->getRepository(Article::class)->find($articleId);
 
-        $course = new Course();
-        $course->setListeId($listeDeCourse);
-        $course->setArticle($article);
-        $course->setAchete(false);
+            $course = new Course();
+            $course->setListeId($listeDeCourse);
+            $course->setArticle($article);
+            $course->setAchete(false);
 
-        $entityManager->persist($course);
-        $entityManager->flush();
+            $entityManager->persist($course);
+            $entityManager->flush();
 
-        return $this->redirectToRoute('app_liste_de_courses_detail', ['id' => $listeDeCourse->getId()]);
+            return $this->redirectToRoute('app_liste_de_courses_detail', ['id' => $listeDeCourse->getId()]);
+        }
+
+        return $this->render('liste_de_courses/detail.html.twig', [
+            'liste_de_course' => $listeDeCourse,
+            'articles' => $articles,
+        ]);
     }
-
-    return $this->render('liste_de_courses/detail.html.twig', [
-        'liste_de_course' => $listeDeCourse,
-        'articles' => $articles,
-    ]);
-}
 
 
 }

@@ -1,0 +1,298 @@
+/* 
+body {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #DBF9F4;
+    width: 60%;
+    height: 80%;
+}
+
+h1{
+    font-family: 'Minecraft';
+    font-size: 400%;
+    padding-bottom: 0%;
+}
+
+.password{
+    display:flex;
+}
+
+.confirm-password{
+    display: flex;
+}
+
+
+input{
+    display: block;
+    width: 100%;
+    font-size: 20px;
+    line-height: 20px;
+    font-family: 'Minecraft';
+    margin-bottom: 90px;
+    border: none;
+    border-bottom: 5px solid rgba(0,0,0,1);
+    background: #f8f4e5;
+    min-width: 250px;
+    padding-left: 5px;
+    outline: none;
+    color: rgba(0,0,0,1);
+} 
+input:focus{
+    border-bottom: 5px solid #ffa580
+}
+
+input:-webkit-autofill{
+    border-bottom: 5px solid #95a4ff;
+    -webkit-text-fill-color: #2A293E;
+    -webkit-box-shadow: 0 0 0px 1000px #f8f4e5 inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+input:-webkit-autofill:hover{
+    border-bottom: 5px solid #95a4ff;
+    -webkit-text-fill-color: #2A293E;
+    -webkit-box-shadow: 0 0 0px 1000px #f8f4e5 inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+input:-webkit-autofill:focus{
+    border-bottom: 5px solid #95a4ff;
+    -webkit-text-fill-color: #2A293E;
+    -webkit-box-shadow: 0 0 0px 1000px #f8f4e5 inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.btn{
+    position: relative;
+    font-family: 'Minecraft';
+    font-size: 30px;
+    line-height: 20px * 2;
+    padding: 0 20px;
+    background: #ffa580;
+    letter-spacing: 2px;
+    transition: .2s all ease-in-out;
+    outline: none;
+    border: 1px solid rgba(0,0,0,1);
+    box-shadow: 3px 3px 1px 1px #95a4ff, 3px 3px 1px 2px rgba(0,0,0,1);
+}
+  .btn:hover{
+    background: rgba(0,0,0,1);
+    color: white;
+    border: 1px solid rgba(0,0,0,1);
+  } */
+
+  body{
+    margin: 0;
+    height: 100vh;
+
+    menu{
+        height: 86%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .container{
+            background: #DBF9F4;
+            width: 50%;
+            height: 70%;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            h1{
+                margin: 0;
+                font-size: 55px;
+                font-weight: 500;
+
+                &::after{
+                    content: "";
+                    display: block;
+                    width: 114%;
+                    height: 2px;
+                    margin-top: 3%;
+                    background: #FFBD95;
+                    transform: translateX(-7%);
+                }
+            }
+
+            .form{
+                width: 100%;
+                height: 100%;
+
+                form{
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    height: 100%;
+
+                    div{
+                        border: 2px solid #FFBD95;
+                        width: 50%;
+                        border-radius: 50px;
+                        position: relative;
+                        height: 12%;
+                        margin-top: 5%;
+                        display: flex;
+
+                        .toggle-password, .confirm-toggle-password{
+                            display: flex;
+                            align-items: center;
+                            background: none;
+                            border: 0;
+                            cursor: pointer;
+                            border-radius: 0 50% 50% 0;
+
+                            .contour-oeil{
+                                width: 12px;
+                                height: 21px;
+                                border: 4px solid black;
+                                border-radius: 50%;
+                                position: relative;
+                            
+                                .point1, .point2{
+                                    width: 7px;
+                                    height: 7px;
+                                    background: black;
+                                    border-radius: 50%;
+                                    position: absolute;
+                                    top: 50%;
+                                }
+
+                                .droit{
+                                    animation: yeux 0.4s forwards;
+                                }
+
+                                .gauche{
+                                    animation: yeux2 0.4s forwards;
+                                }
+                            }
+                        }
+
+                        div{
+                            border: 0;
+                            width: 100%;
+                            margin: 0;
+                            height: 100%;
+
+                            div{
+                                width: 100%;
+                                height: 100%;
+                                margin: 0;
+                            }
+                        }
+
+                        input, .toggle-password-container input{
+                            height: 90%;
+                            margin-left: 5%;
+                            width: 100%;
+                            border-radius: 50px;
+                            border: 0;
+                            background: none;
+                            font-family: Minecraft;
+                            font-size: 16px;
+
+                            &:focus{
+                                outline: none;
+                            }
+                        }
+
+                        .toggle-password-container input{
+                            border-radius: 20px 0 0 20px;
+                        }
+
+
+                        label{
+                            position: absolute;
+                            background: #DBF9F4;
+                            top: -24%;
+                            left: 9%;
+                        }
+                    }
+
+                    .submit{
+                        border-radius: 0;
+                        width: 33%;
+
+                        .btn{
+                            width: 100%;
+                            background: none;
+                            border: 0;
+                            font-family: Minecraft;
+                            font-size: 21px;
+                            font-weight: 400;
+                        }
+                    }
+                }
+            }
+        }
+
+        img{
+            position: absolute;
+            height: 24%;
+        }
+
+        .img1{
+            transform: scaleX(-1);
+            top: 62%;
+            left: 80%;
+        }
+
+        .img2{
+            transform: scaleX(-1);
+            top: 55%;
+            left: 8%;
+        }
+
+        .img3{
+            top: 20%;
+            left: 80%;
+        }
+    }
+}
+
+
+tbody > tr > td:first-child{
+    background: #003B36;
+    color: #DBF9F4;
+}
+tbody > tr{
+    background: #DBF9F4;
+    height: 5vh;
+    width: 20vw;
+}
+
+@keyframes yeux {
+    0%{
+        transform: translateX(0);
+    }
+    100%{
+        transform: translateX(70%);
+    }
+}
+
+@keyframes yeux2 {
+    0%{
+        transform: translateX(70%);
+    }
+    100%{
+        transform: translateX(0);
+    }
+}
+
+@font-face {
+    font-family: 'Minecraft';
+    src: url('/font/minecraft_font.ttf') format('truetype');
+}
