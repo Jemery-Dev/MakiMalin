@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block body %}
-    {% include "header.html.twig" %}
     <menu>
     <div class="container">
         <h1>Inscription</h1>
@@ -72,6 +71,7 @@
             const confirmPasswordInput = document.querySelector('#{{ registrationForm.plainPasswordConfirm.vars.id }}');
             const pointYeux1 = document.getElementsByClassName('point1');
             const pointYeux2 = document.getElementsByClassName('point2');
+
             
 
             togglePassword.addEventListener('click', function() { // Fonction pour le mot de passe

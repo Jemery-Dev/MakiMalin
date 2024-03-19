@@ -1,5 +1,8 @@
 body{
-    font-family: Minecraft;
+    font-family: 'Minecraft';
+    margin: 0;
+    width: 100%;
+    height: 100vh;
 
     header{
         background: #FFBD95;

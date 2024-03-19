@@ -15,10 +15,13 @@ use App\Entity\Utilisateur;
 use Symfony\Component\Validator\Constraints\Callback;
 use ExecutionContextInterface;
 
+
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
+        
         $builder
             ->add('username')
             ->add('plainPassword', PasswordType::class, [
@@ -36,7 +39,7 @@ class RegistrationFormType extends AbstractType
                     ]), 
                     new Length([ // Contrainte pour la taille 
                         'min' => 6,
-                        'minMessage' => 'Votre mot de passe doit contenir au moins 6 caractères',
+                        'minMessage' => 'Votre mot de passe doit contenir au moins 6 caracteres',
                         'max' => 4096,
                     ]),
                 ],

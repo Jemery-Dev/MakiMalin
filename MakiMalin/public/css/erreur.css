@@ -1,0 +1,46 @@
+
+
+menu{
+    width: 100%;
+    height: 86%;
+    padding: 0;
+    margin: 0;
+
+    .err404{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        h1{
+            margin: 0;
+            margin-top: -220px;
+            font-size: 404px;
+
+            img{
+                height: 404px;
+                margin-left: -120px;
+                margin-right: -80px;
+            }
+        }
+
+        a{
+            text-decoration: none;
+            color: #012622;
+            background: #e6fdff;
+            border: 2px #012622 double;
+            padding: 12px;
+            box-shadow: 2px 2px 6px black;
+            transition: 0.4s ease;
+
+            &:hover{
+                color: #003b36;
+                background: #dbf9f4;
+                border-radius: 5px;
+                box-shadow: 6px 6px 16px black;
+            }
+        }
+    }
+}
