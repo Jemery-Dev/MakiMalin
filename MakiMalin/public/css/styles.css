@@ -33,8 +33,10 @@ body{
         }
     }
     
-    @font-face {
-        font-family: 'Minecraft';
-        src: url('/font/minecraft_font.ttf');
-    }
+    
+}
+
+@font-face {
+    font-family: 'Minecraft';
+    src: url('font/Minecraftia-Regular.ttf') ;
 }

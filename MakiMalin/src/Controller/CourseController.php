@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Entity\ListeDeCourses;
 
 #[Route('/course')]
 class CourseController extends AbstractController
@@ -68,14 +69,35 @@ class CourseController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_course_delete', methods: ['POST'])]
-    public function delete(Request $request, Course $course, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/toggle-achete/{courseId}', name: 'app_liste_de_courses_toggle_achete', methods: ['POST'])]
+    public function toggleAchete(ListeDeCourses $listeDeCourses, int $courseId, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$course->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($course);
-            $entityManager->flush();
+        $course = $entityManager->getRepository(Course::class)->find($courseId);
+
+        if (!$course) {
+            throw $this->createNotFoundException('Course not found');
         }
 
-        return $this->redirectToRoute('app_course_index', [], Response::HTTP_SEE_OTHER);
+        $course->setAchete(!$course->isAchete());
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_liste_de_courses_show', ['id' => $listeDeCourses->getId()]);
     }
+
+    #[Route('/{id}/remove-course/{courseId}', name: 'app_liste_de_courses_remove_course', methods: ['POST'])]
+    public function removeCourseFromList(ListeDeCourses $listeDeCourse, int $courseId, EntityManagerInterface $entityManager): Response
+    {
+        $course = $entityManager->getRepository(Course::class)->find($courseId);
+
+        if (!$course) {
+            throw $this->createNotFoundException('Course not found');
+        }
+
+        $entityManager->remove($course);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_liste_de_courses_show', ['id' => $listeDeCourse->getId()]);
+    }
+
+    
 }

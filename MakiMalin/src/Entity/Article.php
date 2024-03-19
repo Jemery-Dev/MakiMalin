@@ -28,7 +28,7 @@ class Article
     private ?string $description = null;
 
     #[ORM\ManyToMany(targetEntity: CategorieArticle::class, inversedBy: 'articles')]
-    private Collection $categorie_id;
+    private Collection $categories;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     private ?Magasin $magasin = null;
@@ -38,7 +38,7 @@ class Article
 
     public function __construct()
     {
-        $this->categorie_id = new ArrayCollection();
+        $this->categories = new ArrayCollection();
         $this->courses = new ArrayCollection();
     }
 
@@ -98,23 +98,23 @@ class Article
     /**
      * @return Collection<int, CategorieArticle>
      */
-    public function getCategorieId(): Collection
+    public function getCategories(): Collection
     {
-        return $this->categorie_id;
+        return $this->categories;
     }
 
-    public function addCategorieId(CategorieArticle $categorieId): static
+    public function addCategories(CategorieArticle $categorie): static
     {
-        if (!$this->categorie_id->contains($categorieId)) {
-            $this->categorie_id->add($categorieId);
+        if (!$this->categories->contains($categorie)) {
+            $this->categories->add($categorie);
         }
 
         return $this;
     }
 
-    public function removeCategorieId(CategorieArticle $categorieId): static
+    public function removeCategories(CategorieArticle $categorie): static
     {
-        $this->categorie_id->removeElement($categorieId);
+        $this->categories->removeElement($categorie);
 
         return $this;
     }

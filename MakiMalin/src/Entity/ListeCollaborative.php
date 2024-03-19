@@ -18,15 +18,11 @@ class ListeCollaborative
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?ListeDeCourses $liste = null;
 
-    #[ORM\ManyToMany(targetEntity: Utilisateur::class)]
-    private Collection $utilisateur_id;
-
     #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: 'listesCollaborative')]
     private Collection $utilisateurs;
 
     public function __construct()
     {
-        $this->utilisateur_id = new ArrayCollection();
         $this->utilisateurs = new ArrayCollection();
     }
 
@@ -53,22 +49,6 @@ class ListeCollaborative
     public function getUtilisateurId(): Collection
     {
         return $this->utilisateur_id;
-    }
-
-    public function addUtilisateurId(Utilisateur $utilisateurId): static
-    {
-        if (!$this->utilisateur_id->contains($utilisateurId)) {
-            $this->utilisateur_id->add($utilisateurId);
-        }
-
-        return $this;
-    }
-
-    public function removeUtilisateurId(Utilisateur $utilisateurId): static
-    {
-        $this->utilisateur_id->removeElement($utilisateurId);
-
-        return $this;
     }
 
     /**
