@@ -90,6 +90,7 @@ input:-webkit-autofill:focus{
   } */
 
   body{
+
     margin: 0;
     height: 100vh;
 
@@ -230,7 +231,7 @@ input:-webkit-autofill:focus{
                             width: 100%;
                             background: none;
                             border: 0;
-                            font-family: Minecraft;
+                            font-family: Minecraftia-Regular;
                             font-size: 21px;
                             font-weight: 400;
                         }
@@ -294,5 +295,5 @@ tbody > tr{
 
 @font-face {
     font-family: 'Minecraft';
-    src: url('/font/minecraft_font.ttf') format('truetype');
+    src: url('font/Minecraftia-Regular.ttf');
 }

@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Article;
 use App\Entity\Course;
+use App\Repository\ArticleRepository;
 
 #[Route('/liste')]
 
@@ -47,10 +48,13 @@ class ListeDeCoursesController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_liste_de_courses_show', methods: ['GET'])]
-    public function show(ListeDeCourses $listeDeCourse): Response
+    public function show(ListeDeCourses $listeDeCourse, ArticleRepository $articleRepository): Response
     {
+        $articles = $articleRepository->findAll();
+
         return $this->render('liste_de_courses/show.html.twig', [
             'liste_de_courses' => $listeDeCourse,
+            'articles' => $articles,
         ]);
     }
     
@@ -82,5 +86,28 @@ class ListeDeCoursesController extends AbstractController
         }
 
         return $this->redirectToRoute('app_liste_de_courses_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/add-article/{articleId}', name: 'app_liste_de_courses_add_article', methods: ['POST'])]
+    public function addArticleToList(ListeDeCourses $listeDeCourses, int $articleId, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $article = $entityManager->getRepository(Article::class)->find($articleId);
+    
+        if (!$article) {
+            throw $this->createNotFoundException('Article not found');
+        }
+    
+        $quantity = $request->request->get('quantity', 1);
+    
+        $course = new Course();
+        $course->setArticle($article);
+        $course->setQuantite($quantity);
+        $course->setListeId($listeDeCourses);
+        $course->setAchete(false);
+    
+        $entityManager->persist($course);
+        $entityManager->flush();
+    
+        return $this->redirectToRoute('app_liste_de_courses_show', ['id' => $listeDeCourses->getId()]);
     }
 }

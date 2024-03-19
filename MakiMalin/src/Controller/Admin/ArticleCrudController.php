@@ -23,10 +23,11 @@ class ArticleCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             TextField::new('nom'),
-            ImageField::new('image')->setUploadDir('/public/uploads/images')->setBasePath('uploads/images')->setLabel('Image'),
+            TextField::new('image'),
+            //ImageField::new('image')->setUploadDir('/public/uploads/images')->setBasePath('uploads/images')->setLabel('Image'),
             MoneyField::new('prix')->setCurrency('EUR'),
             TextField::new('description'),
-            AssociationField::new('categorie_id'),
+            AssociationField::new('categories'),
             AssociationField::new('magasin')
         ];
     }

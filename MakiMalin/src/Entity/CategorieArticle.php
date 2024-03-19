@@ -18,7 +18,7 @@ class CategorieArticle
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'categorie_id')]
+    #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'categories')]
     private Collection $articles;
 
     public function __construct()
@@ -55,7 +55,7 @@ class CategorieArticle
     {
         if (!$this->articles->contains($article)) {
             $this->articles->add($article);
-            $article->addCategorieId($this);
+            $article->addCategories($this);
         }
 
         return $this;
@@ -64,7 +64,7 @@ class CategorieArticle
     public function removeArticle(Article $article): static
     {
         if ($this->articles->removeElement($article)) {
-            $article->removeCategorieId($this);
+            $article->removeCategories($this);
         }
 
         return $this;

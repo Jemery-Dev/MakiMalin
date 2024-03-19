@@ -15,7 +15,27 @@
         {% if liste_de_courses.courses|length > 0 %}
             <ul>
                 {% for course in liste_de_courses.courses %}
-                    <li>{{ course }}</li>
+                    <li>
+                        Nom: {{ course.article.nom }}, 
+                        Quantité: {{ course.quantite }}, 
+                        Acheté: {% if course.achete %}Oui{% else %}Non{% endif %}
+                        <form method="POST" action="{{ path('app_liste_de_courses_toggle_achete', {'id': liste_de_courses.id, 'courseId': course.id}) }}">
+                            <button type="submit">{% if course.achete %}Untoggle{% else %}Toggle{% endif %} Acheté</button>
+                            <input type="hidden" name="_token" value="{{ csrf_token('toggle_achete' ~ course.id) }}">
+                        </form>
+                        <p>Categories :
+                            <ul>
+                                {% for categorie in course.article.getCategories() %}
+                                    <li>{{ categorie.getNom() }}</li>
+                                {% endfor %}
+                            </ul>
+                        </p>
+                        <form method="POST" action="{{ path('app_liste_de_courses_remove_course', {'id': liste_de_courses.id, 'courseId': course.id}) }}">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit">Supprimer la course</button>
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ course.id) }}">
+                        </form>
+                    </li>
                 {% endfor %}
             </ul>
         {% else %}
@@ -30,5 +50,24 @@
         {% endautoescape %}
     {% endif %}
 
-    <a href="{{ path('app_liste_de_courses_index') }}">Retour à la liste</a>
+    <h2>Ajouter des articles à la liste :</h2>
+    {% if articles %}
+        <ul>
+            {% for article in articles %}
+                <li>
+                    Nom: {{ article.nom }}
+                    <form method="POST" action="{{ path('app_liste_de_courses_add_article', {'id': liste_de_courses.id, 'articleId': article.id}) }}">
+                        <label for="quantity{{ article.id }}">Quantité :</label>
+                        <input type="number" id="quantity{{ article.id }}" name="quantity" value="1" min="1">
+                        <button type="submit">Ajouter à la liste</button>
+                        <input type="hidden" name="_token" value="{{ csrf_token('add_article' ~ article.id) }}">
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun article trouvé.</p>
+    {% endif %}
+    
+    <a href="{{ path('app_home') }}">Retour à la liste</a>
 {% endblock %}

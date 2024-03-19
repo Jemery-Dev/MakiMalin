@@ -29,7 +29,7 @@
                 {% if liste_de_course.utilisateur == app.user.username %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td>{{ liste_de_course.nom }}</td>
+                        <td><a href="{{ path('app_liste_de_courses_show', {'id': liste_de_course.id}) }}">{{ liste_de_course.nom }}</a></td>
                         <td>{{ liste_de_course.utilisateur }}</td>
                         <td>
                             <form action="{{ path('app_liste_de_courses_delete', {'id': liste_de_course.id}) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette liste ?');">
