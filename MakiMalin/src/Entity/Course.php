@@ -23,6 +23,10 @@ class Course
     #[ORM\JoinColumn(nullable: false)]
     private ?ListeDeCourses $liste_id = null;
 
+    #[ORM\ManyToOne(inversedBy: 'courses')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Article $article = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +64,18 @@ class Course
     public function setListeId(?ListeDeCourses $liste_id): static
     {
         $this->liste_id = $liste_id;
+
+        return $this;
+    }
+
+    public function getArticle(): ?Article
+    {
+        return $this->article;
+    }
+
+    public function setArticle(?Article $article): static
+    {
+        $this->article = $article;
 
         return $this;
     }

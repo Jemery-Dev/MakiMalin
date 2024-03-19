@@ -5,8 +5,9 @@ namespace App\Controller\Admin;
 use App\Entity\Course;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 
 class CourseCrudController extends AbstractCrudController
 {
@@ -15,14 +16,15 @@ class CourseCrudController extends AbstractCrudController
         return Course::class;
     }
 
-    /*
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+            IdField::new('id')->hideOnForm(),
+            AssociationField::new('liste_id', 'Liste de courses'),
+            AssociationField::new('article', 'Article'),
+            IntegerField::new('quantite'),
+            BooleanField::new('achete'),
         ];
     }
-    */
+
 }
