@@ -15,7 +15,7 @@ class ListeDeCoursesType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('proprietaire_id', EntityType::class, [
+            ->add('proprietaire', EntityType::class, [
                 'class' => Utilisateur::class,
 'choice_label' => 'id',
             ])
