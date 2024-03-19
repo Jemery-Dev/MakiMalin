@@ -151,6 +151,13 @@ body{
                         margin-top: 5%;
                         display: flex;
 
+                        .errLog{
+                            color: red;
+                            position: absolute;
+                            top: 120%;
+                            left: 0;
+                        }
+
                         ul{
                             position: relative;
                             font-size: 12px;
