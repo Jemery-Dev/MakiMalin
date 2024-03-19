@@ -13,7 +13,9 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Article;
 use App\Entity\Course;
 
-#[Route('/liste/de/courses')]
+#[Route('/liste')]
+
+
 class ListeDeCoursesController extends AbstractController
 {
     #[Route('/', name: 'app_liste_de_courses_index', methods: ['GET'])]
@@ -48,9 +50,10 @@ class ListeDeCoursesController extends AbstractController
     public function show(ListeDeCourses $listeDeCourse): Response
     {
         return $this->render('liste_de_courses/show.html.twig', [
-            'liste_de_course' => $listeDeCourse,
+            'liste_de_courses' => $listeDeCourse,
         ]);
     }
+    
 
     #[Route('/{id}/edit', name: 'app_liste_de_courses_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, ListeDeCourses $listeDeCourse, EntityManagerInterface $entityManager): Response
@@ -80,34 +83,4 @@ class ListeDeCoursesController extends AbstractController
 
         return $this->redirectToRoute('app_liste_de_courses_index', [], Response::HTTP_SEE_OTHER);
     }
-
-    #[Route('/{id}/detail', name: 'app_liste_de_courses_detail', methods: ['GET', 'POST'])]
-public function detail(ListeDeCourses $listeDeCourse, Request $request, EntityManagerInterface $entityManager): Response
-{
-
-    $articles = $entityManager->getRepository(Article::class)->findAll();
-
-    if ($request->isMethod('POST')) {
-        $articleId = $request->request->get('article_id');
-
-        $article = $entityManager->getRepository(Article::class)->find($articleId);
-
-        $course = new Course();
-        $course->setListeId($listeDeCourse);
-        $course->setArticle($article);
-        $course->setAchete(false);
-
-        $entityManager->persist($course);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_liste_de_courses_detail', ['id' => $listeDeCourse->getId()]);
-    }
-
-    return $this->render('liste_de_courses/detail.html.twig', [
-        'liste_de_course' => $listeDeCourse,
-        'articles' => $articles,
-    ]);
-}
-
-
 }

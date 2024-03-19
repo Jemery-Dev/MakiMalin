@@ -19,9 +19,9 @@ class ListeCollaborativeType extends AbstractType
                 'class' => ListeDeCourses::class,
                 'choice_label' => 'id',
             ])
-            ->add('utilisateur_id', EntityType::class, [
+            ->add('utilisateur', EntityType::class, [
                 'class' => Utilisateur::class,
-                'choice_label' => 'id',
+                'choice_label' => 'username',
                 'multiple' => true,
             ])
         ;
