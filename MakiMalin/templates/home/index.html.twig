@@ -30,7 +30,6 @@
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td>{{ liste_de_course.nom }}</td>
-                        <td>{{ liste_de_course.utilisateur }}</td>
                         <td>
                             <form action="{{ path('app_liste_de_courses_delete', {'id': liste_de_course.id}) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette liste ?');">
                                 <input type="hidden" name="_method" value="DELETE">
@@ -43,15 +42,20 @@
             {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_liste_de_courses_new') }}" class="btn btn-primary">Ajouter une liste</a>
-    <a href="{{path("app_liste_de_courses_index")}}">12</a>
     {% if is_granted("IS_AUTHENTICATED_FULLY") %}
         <a href="{{ logout_path('main') }}" class="btn btn-primary">Deconnexion</a>
     {% endif %}
+
 </div>
 
+<h2>Ajouter une liste</h2>
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit">Ajouter</button>
+{{ form_end(form) }}
 
-
+{% for message in app.flashes('success') %}
+    <div class="flash-success">{{ message }}</div>
+{% endfor %}
     
 {% endblock %}
