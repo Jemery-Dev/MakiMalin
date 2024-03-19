@@ -5,9 +5,7 @@
 {% block stylesheets %} <link rel="stylesheet" href="{{ asset('css/inscription.css') }}">{% endblock %}
 
 {% block body %}
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    
 <menu>
 
     <div class="container">
@@ -33,6 +31,9 @@
                     <div class="point1 droit"></div>
                 </div>
         </button>
+        {% if error %}
+        <div class="errLog" >Mauvais nom d'utilisateur ou mauvais mot de passe</div>
+        {% endif %}
     </div>
 
     <div class="submit">
