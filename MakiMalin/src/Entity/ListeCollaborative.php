@@ -16,7 +16,7 @@ class ListeCollaborative
     private ?int $id = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?ListeDeCourses $liste_id = null;
+    private ?ListeDeCourses $liste = null;
 
     #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: 'listesCollaborative')]
     private Collection $utilisateurs;
@@ -31,14 +31,14 @@ class ListeCollaborative
         return $this->id;
     }
 
-    public function getListeId(): ?ListeDeCourses
+    public function getListe(): ?ListeDeCourses
     {
-        return $this->liste_id;
+        return $this->liste;
     }
 
-    public function setListeId(?ListeDeCourses $liste_id): static
+    public function setListe(?ListeDeCourses $liste): static
     {
-        $this->liste_id = $liste_id;
+        $this->liste = $liste;
 
         return $this;
     }

@@ -89,7 +89,7 @@ input:-webkit-autofill:focus{
     border: 1px solid rgba(0,0,0,1);
   } */
 
-body{
+  body{
     margin: 0;
     height: 100vh;
 
@@ -127,10 +127,6 @@ body{
                 }
             }
 
-            .f2{
-                margin-top: 5%;
-            }
-
             .form{
                 width: 100%;
                 height: 100%;
@@ -151,26 +147,6 @@ body{
                         margin-top: 5%;
                         display: flex;
 
-                        .errLog{
-                            color: red;
-                            position: absolute;
-                            top: 120%;
-                            left: 0;
-                        }
-
-                        ul{
-                            position: relative;
-                            font-size: 12px;
-                            list-style-type: none;
-                        
-                            li{
-                                color: red;
-                                width: 500px;
-                                position: absolute;
-                                top: 112%;
-                            }
-                        }
-
                         .toggle-password, .confirm-toggle-password{
                             display: flex;
                             align-items: center;
@@ -185,20 +161,6 @@ body{
                                 border: 4px solid black;
                                 border-radius: 50%;
                                 position: relative;
-                                background: white;
-                                overflow: hidden;
-
-                                .paupiere1, .paupiere2{
-                                    position: absolute;
-                                    background: black;
-                                    height: 112%;
-                                    width: 112%;
-                                    transform: translateY(-25px);
-                                }
-
-                                .p1, p2{
-                                    animation: paupiere 0.2s ease;
-                                }
                             
                                 .point1, .point2{
                                     width: 7px;
@@ -271,7 +233,6 @@ body{
                             font-family: Minecraft;
                             font-size: 21px;
                             font-weight: 400;
-                            cursor: pointer;
                         }
                     }
                 }
@@ -302,6 +263,17 @@ body{
     }
 }
 
+
+tbody > tr > td:first-child{
+    background: #003B36;
+    color: #DBF9F4;
+}
+tbody > tr{
+    background: #DBF9F4;
+    height: 5vh;
+    width: 20vw;
+}
+
 @keyframes yeux {
     0%{
         transform: translateX(0);
@@ -320,14 +292,7 @@ body{
     }
 }
 
-@keyframes paupiere{
-    0%{
-        transform: translateY(-25px);
-    }
-    50%{
-        transform: translateY(0);
-    }
-    100%{
-        transform: translateY(-25px);
-    }
+@font-face {
+    font-family: 'Minecraft';
+    src: url('/font/minecraft_font.ttf') format('truetype');
 }

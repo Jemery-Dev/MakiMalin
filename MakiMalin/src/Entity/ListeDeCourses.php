@@ -18,9 +18,6 @@ class ListeDeCourses
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\ManyToOne]
-    private ?Utilisateur $proprietaire_id = null;
-
     #[ORM\OneToMany(targetEntity: Course::class, mappedBy: 'liste_id', orphanRemoval: true)]
     private Collection $courses;
 
@@ -50,18 +47,6 @@ class ListeDeCourses
         return $this;
     }
 
-    public function getProprietaireId(): ?Utilisateur
-    {
-        return $this->proprietaire_id;
-    }
-
-    public function setProprietaireId(?Utilisateur $proprietaire_id): static
-    {
-        $this->proprietaire_id = $proprietaire_id;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Course>
      */
@@ -83,7 +68,6 @@ class ListeDeCourses
     public function removeCourse(Course $course): static
     {
         if ($this->courses->removeElement($course)) {
-            // set the owning side to null (unless already changed)
             if ($course->getListeId() === $this) {
                 $course->setListeId(null);
             }

@@ -1,13 +1,12 @@
 <?php
-
 namespace App\Form;
 
 use App\Entity\ListeDeCourses;
-use App\Entity\Utilisateur;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Utilisateur;
 
 class ListeDeCoursesType extends AbstractType
 {
@@ -15,9 +14,9 @@ class ListeDeCoursesType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('proprietaire_id', EntityType::class, [
+            ->add('utilisateur', EntityType::class, [
                 'class' => Utilisateur::class,
-'choice_label' => 'id',
+                'choice_label' => 'username',
             ])
         ;
     }
