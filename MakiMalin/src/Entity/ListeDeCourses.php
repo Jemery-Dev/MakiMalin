@@ -18,9 +18,6 @@ class ListeDeCourses
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\ManyToOne]
-    private ?Utilisateur $proprietaire = null;
-
     #[ORM\OneToMany(targetEntity: Course::class, mappedBy: 'liste_id', orphanRemoval: true)]
     private Collection $courses;
 
@@ -46,18 +43,6 @@ class ListeDeCourses
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function getProprietaire(): ?Utilisateur
-    {
-        return $this->proprietaire;
-    }
-
-    public function setProprietaire(?Utilisateur $proprietaire): static
-    {
-        $this->proprietaire = $proprietaire;
 
         return $this;
     }

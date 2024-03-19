@@ -15,7 +15,7 @@ class ListeCollaborativeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('liste_id', EntityType::class, [
+            ->add('liste', EntityType::class, [
                 'class' => ListeDeCourses::class,
                 'choice_label' => 'id',
             ])
