@@ -33,9 +33,13 @@ class Article
     #[ORM\ManyToOne(inversedBy: 'articles')]
     private ?Magasin $magasin = null;
 
+    #[ORM\OneToMany(targetEntity: Course::class, mappedBy: 'article', orphanRemoval: true)]
+    private Collection $courses;
+
     public function __construct()
     {
         $this->categorie_id = new ArrayCollection();
+        $this->courses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -128,6 +132,36 @@ class Article
     public function setMagasin(?Magasin $magasin): static
     {
         $this->magasin = $magasin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Course>
+     */
+    public function getCourses(): Collection
+    {
+        return $this->courses;
+    }
+
+    public function addCourse(Course $course): static
+    {
+        if (!$this->courses->contains($course)) {
+            $this->courses->add($course);
+            $course->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCourse(Course $course): static
+    {
+        if ($this->courses->removeElement($course)) {
+            // set the owning side to null (unless already changed)
+            if ($course->getArticle() === $this) {
+                $course->setArticle(null);
+            }
+        }
 
         return $this;
     }
