@@ -29,16 +29,24 @@
                 </div>
                 <div  class="contour-oeil">
                     <div class="point1 droit"></div>
-                </div>
+                </div> 
         </button>
         {% if error %}
-        <div class="errLog" >Mauvais nom d'utilisateur ou mauvais mot de passe</div>
+            <div class="errLog" >Mauvais nom d'utilisateur ou mauvais mot de passe</div>
         {% endif %}
     </div>
 
     <div class="submit">
         <button type="submit" class="btn">Se connecter</button>
     </div>
+
+    <a href="{{ path('app_register') }}">
+        Oh non! Je n'ai pas de compte sur Maki malin, vite il faut que je m'en cree un !
+        <div class="pointeur">
+            <div class="pointInt"></div>
+        </div>
+        <div class="rond"></div>
+    </a>
 
         
     </form>
