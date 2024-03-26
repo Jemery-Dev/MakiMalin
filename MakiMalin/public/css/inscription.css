@@ -170,6 +170,7 @@ body{
                             position: relative;
                             font-size: 12px;
                             list-style-type: none;
+                            padding: 0;
                         
                             li{
                                 color: red;
@@ -269,7 +270,7 @@ body{
                         label{
                             position: absolute;
                             background: #DBF9F4;
-                            top: -24%;
+                            top: -33%;
                             left: 9%;
                         }
                     }

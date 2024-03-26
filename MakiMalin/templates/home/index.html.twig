@@ -45,7 +45,6 @@
     </table>
 
     <a href="{{ path('app_liste_de_courses_new') }}" class="btn btn-primary">Ajouter une liste</a>
-    <a href="{{path("app_liste_de_courses_index")}}">12</a>
     {% if is_granted("IS_AUTHENTICATED_FULLY") %}
         <a href="{{ logout_path('main') }}" class="btn btn-primary">Deconnexion</a>
     {% endif %}
