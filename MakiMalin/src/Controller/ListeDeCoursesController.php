@@ -85,7 +85,7 @@ class ListeDeCoursesController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_liste_de_courses_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/add-article/{articleId}', name: 'app_liste_de_courses_add_article', methods: ['POST'])]
