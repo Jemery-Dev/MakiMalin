@@ -20,8 +20,8 @@ class ListeCollaborativeCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->onlyOnIndex(),
-            AssociationField::new('liste_id'),
-            AssociationField::new('utilisateur_id'),
+            AssociationField::new('listeDeCourses'),
+            AssociationField::new('utilisateurs'),
         ];
     }
 }

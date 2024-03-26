@@ -1,22 +1,73 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ListeCollaborative{% endblock %}
+{% block title %}
+    {% if liste_de_courses %}
+        {{ liste_de_courses.nom }}
+    {% else %}
+        New ListeDeCourses
+    {% endif %}
+{% endblock %}
 
 {% block body %}
-    <h1>ListeCollaborative</h1>
+    {% if liste_de_courses %}
+        <h1>{{ liste_de_courses.nom }}</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ liste_collaborative.id }}</td>
-            </tr>
-        </tbody>
-    </table>
+        {% if liste_de_courses.courses|length > 0 %}
+            <ul>
+                {% for course in liste_de_courses.courses %}
+                    <li>
+                        Nom: {{ course.article.nom }}, 
+                        Quantité: {{ course.quantite }}, 
+                        Acheté: {% if course.achete %}Oui{% else %}Non{% endif %}
+                        <form method="POST" action="{{ path('app_liste_de_courses_toggle_achete', {'id': liste_de_courses.id, 'courseId': course.id}) }}">
+                            <button type="submit">{% if course.achete %}Untoggle{% else %}Toggle{% endif %} Acheté</button>
+                            <input type="hidden" name="_token" value="{{ csrf_token('toggle_achete' ~ course.id) }}">
+                        </form>
+                        <p>Categories :
+                            <ul>
+                                {% for categorie in course.article.getCategories() %}
+                                    <li>{{ categorie.getNom() }}</li>
+                                {% endfor %}
+                            </ul>
+                        </p>
+                        <form method="POST" action="{{ path('app_liste_de_courses_remove_course', {'id': liste_de_courses.id, 'courseId': course.id}) }}">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit">Supprimer la course</button>
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ course.id) }}">
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Cette liste de courses est vide.</p>
+        {% endif %}
+    {% else %}
+        {% set redirection_url = path('app_home') %}
+        {% autoescape false %}
+            <script>
+                window.location.href = "{{ redirection_url }}";
+            </script>
+        {% endautoescape %}
+    {% endif %}
 
-    <a href="{{ path('app_liste_collaborative_index') }}">back to list</a>
-
-    <a href="{{ path('app_liste_collaborative_edit', {'id': liste_collaborative.id}) }}">edit</a>
-
-    {{ include('liste_collaborative/_delete_form.html.twig') }}
+    <h2>Ajouter des articles à la liste :</h2>
+    {% if articles %}
+        <ul>
+            {% for article in articles %}
+                <li>
+                    Nom: {{ article.nom }}
+                    <form method="POST" action="{{ path('app_liste_de_courses_add_article', {'id': liste_de_courses.id, 'articleId': article.id}) }}">
+                        <label for="quantity{{ article.id }}">Quantité :</label>
+                        <input type="number" id="quantity{{ article.id }}" name="quantity" value="1" min="1">
+                        <button type="submit">Ajouter à la liste</button>
+                        <input type="hidden" name="_token" value="{{ csrf_token('add_article' ~ article.id) }}">
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun article trouvé.</p>
+    {% endif %}
+    
+    <a href="{{ path('app_home') }}">Retour à la liste</a>
 {% endblock %}

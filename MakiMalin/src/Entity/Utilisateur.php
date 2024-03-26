@@ -34,7 +34,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: ListeDeCourses::class, mappedBy: 'utilisateur', orphanRemoval: true)]
     private Collection $listesDeCourse;
 
-    #[ORM\ManyToMany(targetEntity: ListeCollaborative::class, inversedBy: 'utilisateurs')]
+    #[ORM\ManyToMany(targetEntity: ListeCollaborative::class, mappedBy: 'utilisateurs')]
     private Collection $listesCollaborative;
 
     public function __construct()
@@ -151,19 +151,22 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->listesCollaborative;
     }
 
-    public function addListesCollaborative(ListeCollaborative $listesCollaborative): static
+    public function addListesCollaborative(ListeCollaborative $listeCollaborative): static
     {
-        if (!$this->listesCollaborative->contains($listesCollaborative)) {
-            $this->listesCollaborative->add($listesCollaborative);
+        if (!$this->listesCollaborative->contains($listeCollaborative)) {
+            $this->listesCollaborative->add($listeCollaborative);
+            $listeCollaborative->addUtilisateur($this);
         }
-
+    
         return $this;
     }
-
-    public function removeListesCollaborative(ListeCollaborative $listesCollaborative): static
+    
+    public function removeListesCollaborative(ListeCollaborative $listeCollaborative): static
     {
-        $this->listesCollaborative->removeElement($listesCollaborative);
-
+        if ($this->listesCollaborative->removeElement($listeCollaborative)) {
+            $listeCollaborative->removeUtilisateur($this);
+        }
+    
         return $this;
     }
 
