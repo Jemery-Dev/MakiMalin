@@ -151,19 +151,22 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->listesCollaborative;
     }
 
-    public function addListesCollaborative(ListeCollaborative $listesCollaborative): static
+    public function addListesCollaborative(ListeCollaborative $listeCollaborative): static
     {
-        if (!$this->listesCollaborative->contains($listesCollaborative)) {
-            $this->listesCollaborative->add($listesCollaborative);
+        if (!$this->listesCollaborative->contains($listeCollaborative)) {
+            $this->listesCollaborative->add($listeCollaborative);
+            $listeCollaborative->addUtilisateur($this);
         }
-
+    
         return $this;
     }
-
-    public function removeListesCollaborative(ListeCollaborative $listesCollaborative): static
+    
+    public function removeListesCollaborative(ListeCollaborative $listeCollaborative): static
     {
-        $this->listesCollaborative->removeElement($listesCollaborative);
-
+        if ($this->listesCollaborative->removeElement($listeCollaborative)) {
+            $listeCollaborative->removeUtilisateur($this);
+        }
+    
         return $this;
     }
 
