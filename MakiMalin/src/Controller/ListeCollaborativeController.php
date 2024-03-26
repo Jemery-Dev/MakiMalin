@@ -71,7 +71,7 @@ class ListeCollaborativeController extends AbstractController
     #[Route('/{id}', name: 'app_liste_collaborative_delete', methods: ['POST'])]
     public function delete(Request $request, ListeCollaborative $listeCollaborative, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$listeCollaborative->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $listeCollaborative->getId(), $request->request->get('_token'))) {
             $entityManager->remove($listeCollaborative);
             $entityManager->flush();
         }
