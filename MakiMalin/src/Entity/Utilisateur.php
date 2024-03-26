@@ -34,7 +34,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: ListeDeCourses::class, mappedBy: 'utilisateur', orphanRemoval: true)]
     private Collection $listesDeCourse;
 
-    #[ORM\ManyToMany(targetEntity: ListeCollaborative::class, inversedBy: 'utilisateurs')]
+    #[ORM\ManyToMany(targetEntity: ListeCollaborative::class, mappedBy: 'utilisateurs')]
     private Collection $listesCollaborative;
 
     public function __construct()

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ListeCollaborativeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,12 +15,29 @@ use Doctrine\ORM\EntityManagerInterface;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(ListeDeCoursesRepository $listeDeCoursesRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function index(
+        ListeDeCoursesRepository $listeDeCoursesRepository,
+        ListeCollaborativeRepository $listeCollaborativeRepository,
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response
     {
         $user = $this->getUser();
         $listeDeCourses = $listeDeCoursesRepository->findBy(['utilisateur' => $user]);
-        $listeDeCoursesForm = new ListeDeCourses();
+        $listeCollaboratives = $listeCollaborativeRepository->findByUtilisateur($user);        
+        dump($listeCollaboratives);        
+        dump($user->getListesCollaborative()->toArray());
 
+        $filteredCollaboratives = array_filter($listeCollaboratives, function($collaborative) use ($listeDeCourses) {
+            foreach ($listeDeCourses as $listeCourse) {
+                if ($listeCourse->getId() === $collaborative->getListeDeCourses()->getId()) {
+                    return false;
+                }
+            }
+            return true;
+        });
+        
+        $listeDeCoursesForm = new ListeDeCourses();
         $listeDeCoursesForm->setUtilisateur($user);
 
         $form = $this->createForm(ListeDeCoursesType::class, $listeDeCoursesForm);
@@ -35,6 +53,7 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
             'liste_de_courses' => $listeDeCourses,
+            'liste_collaboratives' => $filteredCollaboratives,
             'form' => $form->createView(),
         ]);
     }

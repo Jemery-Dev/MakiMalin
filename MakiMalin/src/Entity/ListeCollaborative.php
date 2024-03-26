@@ -16,9 +16,10 @@ class ListeCollaborative
     private ?int $id = null;
 
     #[ORM\OneToOne]
-    private ?ListeDeCourses $liste = null;
+    private ?ListeDeCourses $listeDeCourses = null;
 
-    #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: 'listesCollaborative')]
+    
+    #[ORM\ManyToMany(targetEntity: Utilisateur::class, inversedBy: 'listesCollaborative')]
     private Collection $utilisateurs;
 
     public function __construct()
@@ -31,14 +32,14 @@ class ListeCollaborative
         return $this->id;
     }
 
-    public function getListe(): ?ListeDeCourses
+    public function getListeDeCourses(): ?ListeDeCourses
     {
-        return $this->liste;
+        return $this->listeDeCourses;
     }
 
-    public function setListe(?ListeDeCourses $liste): static
+    public function setListeDeCourses(?ListeDeCourses $listeDeCourses): static
     {
-        $this->liste = $liste;
+        $this->listeDeCourses = $listeDeCourses;
 
         return $this;
     }
@@ -69,5 +70,7 @@ class ListeCollaborative
     
         return $this;
     }
+
+
     
 }

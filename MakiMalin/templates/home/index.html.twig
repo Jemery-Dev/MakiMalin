@@ -25,8 +25,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for liste_de_course in liste_de_courses %}
-                {% if liste_de_course.utilisateur == app.user.username %}
+            {% for liste_de_course in app.user.listesDeCourse %}
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td><a href="{{ path('app_liste_de_courses_show', {'id': liste_de_course.id}) }}">{{ liste_de_course.nom }}</a></td>
@@ -38,8 +37,25 @@
                             </form>
                         </td>
                     </tr>
-                {% endif %}
             {% endfor %}
+
+            {% for liste_collaborative in app.user.listesCollaborative %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><a href="{{ path('app_liste_collaborative_show', {'id': liste_collaborative.listeDeCourses.id}) }}">{{ liste_collaborative.listeDeCourses.nom }}</a></td>
+                        <td>
+                        </td>
+                    </tr>
+                    {% else %}
+                        <tr>
+                            <td>LISTE VIDE</td>
+                            <td>RIEN</td>
+                            <td>RIEN</td>
+                        </tr>
+            {% endfor %}
+
+
+                
         </tbody>
     </table>
     {% if is_granted("IS_AUTHENTICATED_FULLY") %}

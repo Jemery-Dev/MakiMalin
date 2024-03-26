@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Utilisateur;
 use App\Entity\ListeCollaborative;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,6 +20,15 @@ class ListeCollaborativeRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ListeCollaborative::class);
+    }
+
+    public function findByUtilisateur(Utilisateur $utilisateur): array
+    {
+        return $this->createQueryBuilder('lc')
+            ->andWhere(':utilisateur MEMBER OF lc.utilisateurs')
+            ->setParameter('utilisateur', $utilisateur)
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
@@ -45,4 +55,6 @@ class ListeCollaborativeRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
 }

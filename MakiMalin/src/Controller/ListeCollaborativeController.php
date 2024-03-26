@@ -30,16 +30,6 @@ class ListeCollaborativeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Supprimer les utilisateurs actuels de la ListeCollaborative
-            foreach ($listeCollaborative->getUtilisateurs() as $utilisateur) {
-                $listeCollaborative->removeUtilisateur($utilisateur);
-            }
-
-            // Ajouter les utilisateurs sélectionnés à la ListeCollaborative
-            foreach ($listeCollaborative->getUtilisateurs() as $utilisateur) {
-                $listeCollaborative->addUtilisateur($utilisateur);
-            }
-
             $entityManager->persist($listeCollaborative);
             $entityManager->flush();
 
@@ -51,24 +41,15 @@ class ListeCollaborativeController extends AbstractController
             'form' => $form,
         ]);
     }
-
+    
     #[Route('/{id}/edit', name: 'app_liste_collaborative_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, ListeCollaborative $listeCollaborative, EntityManagerInterface $entityManager): Response
     {
+        dump("douze");
         $form = $this->createForm(ListeCollaborativeType::class, $listeCollaborative);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Supprimer les utilisateurs actuels de la ListeCollaborative
-            foreach ($listeCollaborative->getUtilisateurs() as $utilisateur) {
-                $listeCollaborative->removeUtilisateur($utilisateur);
-            }
-
-            // Ajouter les utilisateurs sélectionnés à la ListeCollaborative
-            foreach ($listeCollaborative->getUtilisateurs() as $utilisateur) {
-                $listeCollaborative->addUtilisateur($utilisateur);
-            }
-
             $entityManager->flush();
 
             return $this->redirectToRoute('app_liste_collaborative_index', [], Response::HTTP_SEE_OTHER);
@@ -79,8 +60,7 @@ class ListeCollaborativeController extends AbstractController
             'form' => $form,
         ]);
     }
-
-
+    
 
     #[Route('/{id}', name: 'app_liste_collaborative_show', methods: ['GET'])]
     public function show(ListeCollaborative $listeCollaborative): Response
