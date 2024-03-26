@@ -42,7 +42,7 @@
             {% for liste_collaborative in app.user.listesCollaborative %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td><a href="{{ path('app_liste_collaborative_show', {'id': liste_collaborative.listeDeCourses.id}) }}">{{ liste_collaborative.listeDeCourses.nom }}</a></td>
+                        <td><a href="{{ path('app_liste_collaborative_show', {'id': liste_collaborative.id}) }}">{{ liste_collaborative.listeDeCourses.nom }}</a></td>
                         <td>
                         </td>
                     </tr>
