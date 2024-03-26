@@ -92,4 +92,12 @@ class ListeDeCourses
     {
         return $this->nom;
     }
+    public function getTotalPrice(): float
+    {
+        $total = 0.0;
+        foreach ($this->articles as $article) {
+            $total += $article->getPrice();
+        }
+        return $total;
+    }
 }

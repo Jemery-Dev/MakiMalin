@@ -20,15 +20,14 @@ class HomeController extends AbstractController
         ListeCollaborativeRepository $listeCollaborativeRepository,
         Request $request,
         EntityManagerInterface $entityManager
-    ): Response
-    {
+    ): Response {
         $user = $this->getUser();
         $listeDeCourses = $listeDeCoursesRepository->findBy(['utilisateur' => $user]);
-        $listeCollaboratives = $listeCollaborativeRepository->findByUtilisateur($user);        
-        dump($listeCollaboratives);        
+        $listeCollaboratives = $listeCollaborativeRepository->findByUtilisateur($user);
+        dump($listeCollaboratives);
         dump($user->getListesCollaborative()->toArray());
 
-        $filteredCollaboratives = array_filter($listeCollaboratives, function($collaborative) use ($listeDeCourses) {
+        $filteredCollaboratives = array_filter($listeCollaboratives, function ($collaborative) use ($listeDeCourses) {
             foreach ($listeDeCourses as $listeCourse) {
                 if ($listeCourse->getId() === $collaborative->getListeDeCourses()->getId()) {
                     return false;
@@ -36,13 +35,17 @@ class HomeController extends AbstractController
             }
             return true;
         });
-        
+
         $listeDeCoursesForm = new ListeDeCourses();
         $listeDeCoursesForm->setUtilisateur($user);
 
         $form = $this->createForm(ListeDeCoursesType::class, $listeDeCoursesForm);
         $form->handleRequest($request);
 
+        $totalPrice = 0;
+        foreach ($listeDeCourses as $listeDeCourse) {
+            $totalPrice += $listeDeCourse->getTotalPrice();
+        }
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($listeDeCoursesForm);
             $entityManager->flush();
