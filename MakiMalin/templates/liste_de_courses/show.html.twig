@@ -68,6 +68,14 @@
     {% else %}
         <p>Aucun article trouvé.</p>
     {% endif %}
-    
-    <a href="{{ path('app_home') }}">Retour à la liste</a>
-{% endblock %}
+    <h2>Statistiques :</h2>
+<p>Total du prix de la liste de courses : {{ totalPrices }}€</p>
+<p>Nombre d'articles dans la liste : {{ totalPriceCount }}</p>
+{% if totalPriceCount > 0 %}
+    <p>Moyenne des prix : {{ averagePrice }}€</p>
+    <p>Article le plus cher :  {{ maxPriceArticle }} ({{ maxPrice }}€) </p>
+    <p>Article le moins cher : {{ minPriceArticle }} ({{ minPrice }}€) </p>
+{% endif %}
+
+        <a href="{{ path('app_home') }}">Retour à la liste</a>
+        {% endblock %}

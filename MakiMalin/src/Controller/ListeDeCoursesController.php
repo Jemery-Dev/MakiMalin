@@ -52,12 +52,41 @@ class ListeDeCoursesController extends AbstractController
     {
         $articles = $articleRepository->findAll();
 
+        $totalPrices = 0;
+        $totalPriceCount = 0;
+        $maxPrice = null;
+        $minPrice = null;
+        $maxPriceArticle = null;
+        $minPriceArticle = null;
+
+        foreach ($listeDeCourse->getCourses() as $course) {
+            $totalPrices += ($course->getQuantite() * $course->getArticle()->getPrix());
+            $totalPriceCount += $course->getQuantite();
+
+            if ($maxPrice === null || $course->getArticle()->getPrix() > $maxPrice) {
+                $maxPrice = $course->getArticle()->getPrix();
+                $maxPriceArticle = $course->getArticle()->getNom();
+            }
+
+            if ($minPrice === null || $course->getArticle()->getPrix() < $minPrice) {
+                $minPrice = $course->getArticle()->getPrix();
+                $minPriceArticle = $course->getArticle()->getNom();
+            }
+        }
+
+        $averagePrice = number_format((($totalPriceCount > 0) ? $totalPrices / $totalPriceCount : 0), 2);
         return $this->render('liste_de_courses/show.html.twig', [
             'liste_de_courses' => $listeDeCourse,
             'articles' => $articles,
+            'totalPrices' => $totalPrices,
+            'totalPriceCount' => $totalPriceCount,
+            'averagePrice' => $averagePrice,
+            'maxPrice' => $maxPrice,
+            'maxPriceArticle' => $maxPriceArticle,
+            'minPrice' => $minPrice,
+            'minPriceArticle' => $minPriceArticle,
         ]);
     }
-
 
     #[Route('/{id}/edit', name: 'app_liste_de_courses_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, ListeDeCourses $listeDeCourse, EntityManagerInterface $entityManager): Response
@@ -97,17 +126,29 @@ class ListeDeCoursesController extends AbstractController
             throw $this->createNotFoundException('Article not found');
         }
 
-        $quantity = $request->request->get('quantity', 1);
+        $existingCourse = $entityManager->getRepository(Course::class)->findOneBy([
+            'article' => $article,
+            'liste_id' => $listeDeCourses,
+        ]);
 
-        $course = new Course();
-        $course->setArticle($article);
-        $course->setQuantite($quantity);
-        $course->setListeId($listeDeCourses);
-        $course->setAchete(false);
+        $quantity = (int) $request->request->get('quantity', 1);
 
-        $entityManager->persist($course);
+        if ($existingCourse) {
+            $existingCourse->setQuantite($existingCourse->getQuantite() + $quantity);
+        } else {
+            $course = new Course();
+            $course->setArticle($article);
+            $course->setQuantite($quantity);
+            $course->setListeId($listeDeCourses);
+            $course->setAchete(false);
+            $entityManager->persist($course);
+        }
+
         $entityManager->flush();
 
         return $this->redirectToRoute('app_liste_de_courses_show', ['id' => $listeDeCourses->getId()]);
     }
+
+
+
 }
