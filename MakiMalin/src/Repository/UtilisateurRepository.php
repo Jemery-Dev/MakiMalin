@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\ListeCollaborative;
 use App\Entity\Utilisateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,6 +40,24 @@ class UtilisateurRepository extends ServiceEntityRepository implements PasswordU
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+
+    public function findUsersExceptCurrentUserAndCollaborators(Utilisateur $currentUser, ListeCollaborative $listeCollaborative): array
+    {
+        $queryBuilder = $this->createQueryBuilder('u')
+            ->andWhere('u != :currentUser')
+            ->setParameter('currentUser', $currentUser);
+    
+        $collaborators = $listeCollaborative->getUtilisateurs();
+        
+        if (!$collaborators->isEmpty()) {
+            $queryBuilder->andWhere('u NOT IN (:collaborators)')
+                ->setParameter('collaborators', $collaborators);
+        }
+    
+        return $queryBuilder->getQuery()->getResult();
+    }
+    
+    
 
 //    /**
 //     * @return Utilisateur[] Returns an array of Utilisateur objects

@@ -75,7 +75,7 @@
             {% for user in liste_collaborative.getUtilisateurs() %}
                 <li>
                     Nom d'utilisateur: {{ user.getUsername() }}
-                    <form method="POST" action="{{ path('app_liste_de_courses_remove_user', {'id': liste_collaborative.id, 'userId': user.getId()}) }}">
+                    <form method="POST" action="{{ path('app_liste_collaborative_remove_user', {'listeCollaborativeId': liste_collaborative.id, 'userId': user.getId()}) }}">
                         <button type="submit">Supprimer</button>
                         <input type="hidden" name="_token" value="{{ csrf_token('remove_user' ~ user.getId()) }}">
                     </form>
@@ -91,7 +91,7 @@
             <input type="hidden" name="listeCollaborativeId" value="{{ liste_collaborative.id }}">
             
             <label for="userId">Sélectionner un utilisateur :</label>
-            <select id="userId" name="userId">
+            <select id="userId" name="utilisateur_id">
                 {% for user in users %}
                     <option value="{{ user.getId() }}">{{ user.getUsername() }}</option>
                 {% endfor %}

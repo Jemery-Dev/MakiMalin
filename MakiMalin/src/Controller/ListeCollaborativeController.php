@@ -77,57 +77,90 @@ class ListeCollaborativeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_liste_collaborative_show', methods: ['GET'])]
-    public function show(ListeCollaborative $listeCollaborative, ArticleRepository $articleRepository, Security $security): Response
-    {
-        $currentUser = $security->getUser();
-        $utilisateurs = $listeCollaborative->getUtilisateurs();
-        $isUserAuthorized = false;
-    
-        foreach ($utilisateurs as $utilisateur) {
-            if ($utilisateur->getId() === $currentUser->getId()) {
-                $isUserAuthorized = true;
-                break;
-            }
-        }
-        if (!$isUserAuthorized) {
-            throw $this->createNotFoundException('Vous n\'êtes pas autorisé à accéder à cette liste collaborative.');
-        }
-    
-        $articles = $articleRepository->findAll();
-        $liste_de_courses = $listeCollaborative->getListeDeCourses();
-    
-        return $this->render('liste_collaborative/show.html.twig', [
-            'liste_de_courses' => $liste_de_courses,
-            'articles' => $articles,
-        ]);
+public function show(ListeCollaborative $listeCollaborative, ArticleRepository $articleRepository, Security $security): Response
+{
+    $currentUser = $security->getUser();
+
+    $listeDeCourses = $listeCollaborative->getListeDeCourses();
+
+    if ($listeDeCourses && $listeDeCourses->getUtilisateur() === $currentUser) {
+        return $this->redirectToRoute('app_liste_de_courses_show', ['id' => $listeDeCourses->getId()]);
     }
+
+    $utilisateurs = $listeCollaborative->getUtilisateurs();
+    $isUserAuthorized = false;
+
+    foreach ($utilisateurs as $utilisateur) {
+        if ($utilisateur->getId() === $currentUser->getId()) {
+            $isUserAuthorized = true;
+            break;
+        }
+    }
+
+    if (!$isUserAuthorized) {
+        throw $this->createNotFoundException('Vous n\'êtes pas autorisé à accéder à cette liste collaborative.');
+    }
+
+    $articles = $articleRepository->findAll();
+    $liste_de_courses = $listeCollaborative->getListeDeCourses();
+
+    return $this->render('liste_collaborative/show.html.twig', [
+        'liste_de_courses' => $liste_de_courses,
+        'articles' => $articles,
+    ]);
+}
+
 
     #[Route("/liste-collaborative/{id}/add-user", name:"app_liste_collaborative_add_user", methods: ["POST"])]
     public function addUtilisateurToListeCollaborative(int $id, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $utilisateurId = $request->request->get('utilisateur');
+        dump($request->getContent());
+
+        $utilisateurId = $request->request->get('utilisateur_id');
+
         $listeCollaborative = $entityManager->getRepository(ListeCollaborative::class)->find($id);
         $utilisateur = $entityManager->getRepository(Utilisateur::class)->find($utilisateurId);
-    
+        
+        dump($utilisateur); // Affichez l'utilisateur trouvé
+
         if (!$listeCollaborative || !$utilisateur) {
             $this->addFlash('error', 'Utilisateur ou liste collaborative non trouvé.');
             return $this->redirectToRoute('app_home');
         }
-    
-        if ($utilisateur) {
-            $listeCollaborative->addUtilisateur($utilisateur);
-            $entityManager->flush();
-    
-            $this->addFlash('success', 'Utilisateur ajouté avec succès à la liste collaborative.');
-    
-            return $this->redirectToRoute('app_liste_collaborative_show', ['id' => $listeCollaborative->getId()]);
-        } else {
-            $this->addFlash('error', 'Utilisateur non trouvé.');
-        }
-    
-        return $this->redirectToRoute('app_home');
+
+        $listeCollaborative->addUtilisateur($utilisateur);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Utilisateur ajouté avec succès à la liste collaborative.');
+
+        return $this->redirectToRoute('app_liste_collaborative_show', ['id' => $listeCollaborative->getId()]);
     }
-    
-    
-    
+
+    #[Route("/liste-collaborative/{listeCollaborativeId}/remove-user/{userId}", name:"app_liste_collaborative_remove_user", methods: ["POST"])]
+    public function removeUtilisateurFromListeCollaborative(int $listeCollaborativeId, int $userId, EntityManagerInterface $entityManager): Response
+    {
+        $listeCollaborative = $entityManager->getRepository(ListeCollaborative::class)->find($listeCollaborativeId);
+        $utilisateur = $entityManager->getRepository(Utilisateur::class)->find($userId);
+
+        if (!$listeCollaborative || !$utilisateur) {
+            $this->addFlash('error', 'Utilisateur ou liste collaborative non trouvé.');
+            return $this->redirectToRoute('app_home');
+        }
+
+        if ($listeCollaborative->getUtilisateurs()->contains($utilisateur)) {
+            $listeCollaborative->removeUtilisateur($utilisateur);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Utilisateur supprimé avec succès de la liste collaborative.');
+        } else {
+            $this->addFlash('warning', 'Cet utilisateur n\'est pas dans la liste collaborative.');
+        }
+
+        return $this->redirectToRoute('app_liste_collaborative_show', ['id' => $listeCollaborative->getId()]);
+    }
+
+
+        
+        
+        
 }

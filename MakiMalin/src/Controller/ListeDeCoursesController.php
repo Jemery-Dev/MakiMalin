@@ -55,6 +55,7 @@ class ListeDeCoursesController extends AbstractController
     #[Route('/{id}', name: 'app_liste_de_courses_show', methods: ['GET'])]
     public function show(ListeDeCourses $listeDeCourse, UtilisateurRepository $utilisateurRepository,ArticleRepository $articleRepository, EntityManagerInterface $entityManager, Request $request): Response
     {
+        $currentUser = $this->getUser();
         $articles = $articleRepository->findAll();
         $users = $utilisateurRepository->findAll();
     
@@ -66,12 +67,16 @@ class ListeDeCoursesController extends AbstractController
             $entityManager->flush();
         }
 
+        $choices = $utilisateurRepository->findUsersExceptCurrentUserAndCollaborators($currentUser, $listeCollaborative);
+        dump($choices);
+
         $form = $this->createFormBuilder()
             ->add('utilisateur', EntityType::class, [
                 'class' => Utilisateur::class,
                 'choice_label' => 'username',
                 'label' => 'Ajouter un utilisateur :',
                 'placeholder' => 'Sélectionnez un utilisateur',
+                'choices' => $choices
             ])
             ->add('ajouter', SubmitType::class, ['label' => 'Ajouter'])
             ->getForm();
@@ -92,7 +97,7 @@ class ListeDeCoursesController extends AbstractController
             'articles' => $articles,
             'liste_collaborative' => $listeCollaborative,
             'form' => $form->createView(),
-            'users' => $users,
+            'users' => $choices,
         ]);
     }
     
