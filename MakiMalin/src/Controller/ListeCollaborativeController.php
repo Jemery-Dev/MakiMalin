@@ -109,7 +109,6 @@ class ListeCollaborativeController extends AbstractController
         $listeCollaborative = $entityManager->getRepository(ListeCollaborative::class)->find($id);
         $utilisateur = $entityManager->getRepository(Utilisateur::class)->find($utilisateurId);
     
-        // Vérifiez si les ID sont valides
         if (!$listeCollaborative || !$utilisateur) {
             $this->addFlash('error', 'Utilisateur ou liste collaborative non trouvé.');
             return $this->redirectToRoute('app_home');
