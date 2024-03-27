@@ -2,6 +2,11 @@
 
 namespace App\Controller;
 
+use App\Repository\UtilisateurRepository;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Utilisateur;
+use App\Entity\ListeCollaborative;
 use App\Entity\ListeDeCourses;
 use App\Form\ListeDeCoursesType;
 use App\Repository\ListeDeCoursesRepository;
@@ -47,16 +52,50 @@ class ListeDeCoursesController extends AbstractController
         ]);
     }
 
-    #[Route('id=/{id}', name: 'app_liste_de_courses_show', methods: ['GET'])]
-    public function show(ListeDeCourses $listeDeCourse, ArticleRepository $articleRepository): Response
+    #[Route('/{id}', name: 'app_liste_de_courses_show', methods: ['GET'])]
+    public function show(ListeDeCourses $listeDeCourse, UtilisateurRepository $utilisateurRepository,ArticleRepository $articleRepository, EntityManagerInterface $entityManager, Request $request): Response
     {
         $articles = $articleRepository->findAll();
+        $users = $utilisateurRepository->findAll();
+    
+        $listeCollaborative = $listeDeCourse->getListeCollaborative();
+        if (!$listeCollaborative) {
+            $listeCollaborative = new ListeCollaborative();
+            $listeCollaborative->setListeDeCourses($listeDeCourse);
+            $entityManager->persist($listeCollaborative);
+            $entityManager->flush();
+        }
 
+        $form = $this->createFormBuilder()
+            ->add('utilisateur', EntityType::class, [
+                'class' => Utilisateur::class,
+                'choice_label' => 'username',
+                'label' => 'Ajouter un utilisateur :',
+                'placeholder' => 'Sélectionnez un utilisateur',
+            ])
+            ->add('ajouter', SubmitType::class, ['label' => 'Ajouter'])
+            ->getForm();
+    
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $utilisateur = $data['utilisateur'];
+            $listeCollaborative->addUtilisateur($utilisateur);
+            $entityManager->flush();
+    
+            $this->addFlash('success', 'Utilisateur ajouté avec succès à la liste collaborative.');
+        }
+    
         return $this->render('liste_de_courses/show.html.twig', [
             'liste_de_courses' => $listeDeCourse,
             'articles' => $articles,
+            'liste_collaborative' => $listeCollaborative,
+            'form' => $form->createView(),
+            'users' => $users,
         ]);
     }
+    
 
 
     #[Route('/{id}/edit', name: 'app_liste_de_courses_edit', methods: ['GET', 'POST'])]
@@ -80,11 +119,15 @@ class ListeDeCoursesController extends AbstractController
     #[Route('/{id}', name: 'app_liste_de_courses_delete', methods: ['POST'])]
     public function delete(Request $request, ListeDeCourses $listeDeCourse, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $listeDeCourse->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($listeDeCourse);
-            $entityManager->flush();
-        }
 
+        if ($this->isCsrfTokenValid('delete' . $listeDeCourse->getId(), $request->request->get('_token'))) {
+                $listeCollaborative = $listeDeCourse->getListeCollaborative();
+                $entityManager->remove($listeCollaborative);
+
+                // Supprimer la liste_de_courses
+                $entityManager->remove($listeDeCourse);
+                $entityManager->flush();
+        }
         return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
     }
 

@@ -15,9 +15,10 @@ class ListeCollaborative
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne]
+    #[ORM\OneToOne(targetEntity: ListeDeCourses::class, inversedBy: 'listeCollaborative')]
+    #[ORM\JoinColumn(name: 'liste_collaborative_id', referencedColumnName: 'id')]
     private ?ListeDeCourses $listeDeCourses = null;
-
+    
     
     #[ORM\ManyToMany(targetEntity: Utilisateur::class, inversedBy: 'listesCollaborative')]
     private Collection $utilisateurs;

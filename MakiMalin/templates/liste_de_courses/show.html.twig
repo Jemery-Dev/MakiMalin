@@ -68,6 +68,38 @@
     {% else %}
         <p>Aucun article trouvé.</p>
     {% endif %}
+
+    <h2>Liste collaborative :</h2>
+    {% if liste_collaborative %}
+        <ul>
+            {% for user in liste_collaborative.getUtilisateurs() %}
+                <li>
+                    Nom d'utilisateur: {{ user.getUsername() }}
+                    <form method="POST" action="{{ path('app_liste_de_courses_remove_user', {'id': liste_collaborative.id, 'userId': user.getId()}) }}">
+                        <button type="submit">Supprimer</button>
+                        <input type="hidden" name="_token" value="{{ csrf_token('remove_user' ~ user.getId()) }}">
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun utilisateur dans la liste collaborative.</p>
+    {% endif %}
+
+        <h2>Ajouter des utilisateurs à la liste collaborative :</h2>
+        <form method="POST" action="{{ path('app_liste_collaborative_add_user', {'id': liste_collaborative.id}) }}">
+            <input type="hidden" name="listeCollaborativeId" value="{{ liste_collaborative.id }}">
+            
+            <label for="userId">Sélectionner un utilisateur :</label>
+            <select id="userId" name="userId">
+                {% for user in users %}
+                    <option value="{{ user.getId() }}">{{ user.getUsername() }}</option>
+                {% endfor %}
+            </select>
+            
+            <button type="submit">Ajouter</button>
+            <input type="hidden" name="_token" value="{{ csrf_token('add_user') }}">
+        </form>
     
     <a href="{{ path('app_home') }}">Retour à la liste</a>
 {% endblock %}

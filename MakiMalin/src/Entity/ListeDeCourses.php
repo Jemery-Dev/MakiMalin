@@ -18,6 +18,9 @@ class ListeDeCourses
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[ORM\OneToOne(targetEntity: ListeCollaborative::class, mappedBy: 'listeDeCourses')]
+    private ?ListeCollaborative $listeCollaborative = null;
+
     #[ORM\OneToMany(targetEntity: Course::class, mappedBy: 'liste_id', orphanRemoval: true)]
     private Collection $courses;
 
@@ -28,6 +31,7 @@ class ListeDeCourses
     public function __construct()
     {
         $this->courses = new ArrayCollection();
+        $this->listeCollaborative = null; 
     }
 
     public function getId(): ?int
@@ -88,8 +92,21 @@ class ListeDeCourses
         return $this;
     }
 
+    public function getListeCollaborative(): ?ListeCollaborative
+    {
+        return $this->listeCollaborative;
+    }
+
+    public function setListeCollaborative(?ListeCollaborative $listeCollaborative): static
+    {
+        $this->listeCollaborative = $listeCollaborative;
+
+        return $this;
+    }
+
     public function __toString(): string
     {
         return $this->nom;
     }
+
 }

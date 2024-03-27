@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Ajouter un utilisateur à la liste collaborative de {{ listeCollaborative.getListeDeCourses().getNom() }}
+{% endblock %}
+
+{% block body %}
+    <h1>Ajouter un utilisateur à la liste collaborative de {{ listeCollaborative.getListeDeCourses().getNom() }}</h1>
+
+    <form method="POST" action="{{ path('app_liste_collaborative_add_user', {'id': liste_collaborative.id}) }}">
+        <label for="utilisateur">Utilisateur :</label>
+        <select id="utilisateur" name="utilisateur">
+            {% for utilisateur in utilisateurs %}
+                <option value="{{ utilisateur.getId() }}">{{ utilisateur.getUsername() }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Ajouter</button>
+        <input type="hidden" name="_token" value="{{ csrf_token('add_user_to_liste_collaborative' ~ listeCollaborative.getId()) }}">
+    </form>
+
+    <a href="{{ path('app_home') }}">Retour à la liste</a>
+{% endblock %}

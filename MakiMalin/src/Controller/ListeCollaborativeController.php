@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Utilisateur;
 use Symfony\Bundle\SecurityBundle\Security;
 use App\Repository\ArticleRepository;
 use App\Entity\ListeCollaborative;
@@ -75,7 +76,7 @@ class ListeCollaborativeController extends AbstractController
         return $this->redirectToRoute('app_liste_collaborative_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}', name: 'app_liste_collaborative_show', methods: ['GET'])]#[Route('/{id}', name: 'app_liste_collaborative_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_liste_collaborative_show', methods: ['GET'])]
     public function show(ListeCollaborative $listeCollaborative, ArticleRepository $articleRepository, Security $security): Response
     {
         $currentUser = $security->getUser();
@@ -100,5 +101,34 @@ class ListeCollaborativeController extends AbstractController
             'articles' => $articles,
         ]);
     }
+
+    #[Route("/liste-collaborative/{id}/add-user", name:"app_liste_collaborative_add_user", methods: ["POST"])]
+    public function addUtilisateurToListeCollaborative(int $id, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $utilisateurId = $request->request->get('utilisateur');
+        $listeCollaborative = $entityManager->getRepository(ListeCollaborative::class)->find($id);
+        $utilisateur = $entityManager->getRepository(Utilisateur::class)->find($utilisateurId);
+    
+        // Vérifiez si les ID sont valides
+        if (!$listeCollaborative || !$utilisateur) {
+            $this->addFlash('error', 'Utilisateur ou liste collaborative non trouvé.');
+            return $this->redirectToRoute('app_home');
+        }
+    
+        if ($utilisateur) {
+            $listeCollaborative->addUtilisateur($utilisateur);
+            $entityManager->flush();
+    
+            $this->addFlash('success', 'Utilisateur ajouté avec succès à la liste collaborative.');
+    
+            return $this->redirectToRoute('app_liste_collaborative_show', ['id' => $listeCollaborative->getId()]);
+        } else {
+            $this->addFlash('error', 'Utilisateur non trouvé.');
+        }
+    
+        return $this->redirectToRoute('app_home');
+    }
+    
+    
     
 }
