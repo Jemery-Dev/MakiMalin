@@ -15,12 +15,6 @@
  #}    {% endif %}
 
     
-
-
-
-    
-
-    
             {% set listeUser = false %}
 
             {% for liste_de_course in liste_de_courses %}
@@ -28,6 +22,51 @@
                     {% set listeUser = true %}
                 {% endif %}
             {% endfor %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Action</th> 
+            </tr>
+        </thead>
+        <tbody>
+            {% for liste_de_course in app.user.listesDeCourse %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><a href="{{ path('app_liste_de_courses_show', {'id': liste_de_course.id}) }}">{{ liste_de_course.nom }}</a></td>
+                        <td>
+                            <form action="{{ path('app_liste_de_courses_delete', {'id': liste_de_course.id}) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette liste ?');">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ liste_de_course.id) }}">
+                                <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+            {% endfor %}
+
+            {% for liste_collaborative in app.user.listesCollaborative %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><a href="{{ path('app_liste_collaborative_show', {'id': liste_collaborative.id}) }}">{{ liste_collaborative.listeDeCourses.nom }}</a></td>
+                        <td>
+                        </td>
+                    </tr>
+                    {% else %}
+                        <tr>
+                            <td>LISTE VIDE</td>
+                            <td>RIEN</td>
+                            <td>RIEN</td>
+                        </tr>
+            {% endfor %}
+
+
+                
+        </tbody>
+    </table>
+    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+        <a href="{{ logout_path('main') }}" class="btn btn-primary">Deconnexion</a>
+    {% endif %}
 
             {% if not listeUser %}
                 <div class="container">
