@@ -1,11 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {% if liste_de_courses %}
-        {{ liste_de_courses.nom }}
-    {% else %}
-        New ListeDeCourses
-    {% endif %}
+    {{liste_de_courses.nom}} - Maki Malin
 {% endblock %}
 
 {% block body %}
@@ -18,6 +14,7 @@
                     <li>
                         Nom: {{ course.article.nom }}, 
                         Quantité: {{ course.quantite }}, 
+                        petite image en chechill : <img src="{{course.article.image}}" />
                         Acheté: {% if course.achete %}Oui{% else %}Non{% endif %}
                         <form method="POST" action="{{ path('app_liste_de_courses_toggle_achete', {'id': liste_de_courses.id, 'courseId': course.id}) }}">
                             <button type="submit">{% if course.achete %}Untoggle{% else %}Toggle{% endif %} Acheté</button>

@@ -84,6 +84,21 @@ class CourseController extends AbstractController
         return $this->redirectToRoute('app_liste_de_courses_show', ['id' => $listeDeCourses->getId()]);
     }
 
+    #[Route('/{id}/toggle-achete/{courseId}', name: 'app_liste_de_courses_toggle_achete2', methods: ['POST'])]
+    public function toggleAchete2(ListeDeCourses $listeDeCourses, int $courseId, EntityManagerInterface $entityManager): Response
+    {
+        $course = $entityManager->getRepository(Course::class)->find($courseId);
+
+        if (!$course) {
+            throw $this->createNotFoundException('Course not found');
+        }
+
+        $course->setAchete(!$course->isAchete());
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_home');
+    }
+
     #[Route('/{id}/remove-course/{courseId}', name: 'app_liste_de_courses_remove_course', methods: ['POST'])]
     public function removeCourseFromList(ListeDeCourses $listeDeCourse, int $courseId, EntityManagerInterface $entityManager): Response
     {

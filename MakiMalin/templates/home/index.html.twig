@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des Courses{% endblock %}
+{% block title %}Liste des Courses - Maki Malin{% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/accueil.css') }}">
@@ -9,55 +9,107 @@
 {% block body %}
 
 
-<div class="example-wrapper">
+<menu class="example-wrapper">
     {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-        <h1>Hello {{ app.user.username }}!</h1>
-    {% endif %}
+{#         <h1>Hello {{ app.user.username }}!</h1>
+ #}    {% endif %}
 
-    <h1>Liste des Courses</h1>
+    
 
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Action</th> 
-            </tr>
-        </thead>
-        <tbody>
+
+
+    
+
+    
+            {% set listeUser = false %}
+
             {% for liste_de_course in liste_de_courses %}
                 {% if liste_de_course.utilisateur == app.user.username %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td><a href="{{ path('app_liste_de_courses_show', {'id': liste_de_course.id}) }}">{{ liste_de_course.nom }}</a></td>
-                        <td>
-                            <form action="{{ path('app_liste_de_courses_delete', {'id': liste_de_course.id}) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette liste ?');">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ liste_de_course.id) }}">
-                                <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
-                            </form>
-                        </td>
-                    </tr>
+                    {% set listeUser = true %}
                 {% endif %}
             {% endfor %}
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_liste_de_courses_new') }}" class="btn btn-primary">Ajouter une liste</a>
-    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
-        <a href="{{ logout_path('main') }}" class="btn btn-primary">Deconnexion</a>
-    {% endif %}
+            {% if not listeUser %}
+                <div class="container">
+                    <div class="dialog">
+                        <h1>Hey {{app.user.username}} il semblerait que tu n'ai pas encore de liste</h1>
+                    </div>
+                    <h2>C'est ici pour ajouter une liste</h2>
+                    {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        <button class="btnAddListe" type="submit">Ajouter une liste</button>
+                    {{ form_end(form) }}
 
-</div>
+                    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                        <a href="{{ logout_path('main') }}" class="btn btn-primary">Deconnexion</a>
+                    {% endif %}
+                </div>
 
-<h2>Ajouter une liste</h2>
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">Ajouter</button>
-{{ form_end(form) }}
+            {% else %}
+                <div class="containerListe">
+                <h1>Mes listes</h1>
+                {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button class="btnAddListe" type="submit">Ajouter une liste</button>
+                {{ form_end(form) }}
+                <div class="listes">
+                {% set i = 0 %}
+                {% for liste_de_course in liste_de_courses %}
+                    {% if liste_de_course.utilisateur == app.user.username %}
+                        {% set i = i + 1 %}
+                            <div class="liste">
+                                <div class="infoListe">
+                                    <div class="num">{{i}}</div>
+                                    <h3>{{liste_de_course.nom}}</h3>
+                                    <form action="{{ path('app_liste_de_courses_delete', {'id': liste_de_course.id}) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette liste ?');">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ liste_de_course.id) }}">
+                                        <a href="{{path('app_liste_de_courses_show', {'id': liste_de_course.id})}}">
+                                            <img src="{{asset('images/icon_modifier.png')}}" alt="modifier" />
+                                        </a>
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <img src="{{asset('images/icons8-poubelle-64.png')}}" alt="poubelle" />
+                                        </button>
+                                        {# <div class="rond"><div class="fleche"></div></div> #}
+                                    </form>
+                                </div>
 
-{% for message in app.flashes('success') %}
-    <div class="flash-success">{{ message }}</div>
-{% endfor %}
+                                {# <div class='coursesListe'>
+                                {% for course in liste_de_course.courses %}
+                                    <div class="course">
+                                        <img src="{{course.article.image}}" alt="{{course.article.nom}}" />
+                                        <h3>{{course.article.nom}} x{{course.quantite}}</h3>
+                                    </div>
+                                {% endfor %}
+                                </div> #}
+                            </div>
+                            
+                        
+                        {# <tr>
+                            <td>{{ loop.index }}</td>
+                            <td><a href="{{ path('app_liste_de_courses_show', {'id': liste_de_course.id}) }}">{{ liste_de_course.nom }}</a></td>
+                            <td>
+                                <form action="{{ path('app_liste_de_courses_delete', {'id': liste_de_course.id}) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette liste ?');">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ liste_de_course.id) }}">
+                                    <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr> #}
+                    {% endif %}
+                {% endfor %}
+                </div>
+
+                </div>
+
+                {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                    <a href="{{ logout_path('main') }}" class="btn btn-primary">Deconnexion</a>
+                {% endif %}
+            {% endif %}
+
+    
+
+</menu>
+
     
 {% endblock %}

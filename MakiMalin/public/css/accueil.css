@@ -1,299 +1,368 @@
-/* 
-body {
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #DBF9F4;
-    width: 60%;
-    height: 80%;
-}
-
-h1{
-    font-family: 'Minecraft';
-    font-size: 400%;
-    padding-bottom: 0%;
-}
-
-.password{
-    display:flex;
-}
-
-.confirm-password{
-    display: flex;
-}
 
 
-input{
-    display: block;
-    width: 100%;
-    font-size: 20px;
-    line-height: 20px;
-    font-family: 'Minecraft';
-    margin-bottom: 90px;
-    border: none;
-    border-bottom: 5px solid rgba(0,0,0,1);
-    background: #f8f4e5;
-    min-width: 250px;
-    padding-left: 5px;
-    outline: none;
-    color: rgba(0,0,0,1);
-} 
-input:focus{
-    border-bottom: 5px solid #ffa580
-}
-
-input:-webkit-autofill{
-    border-bottom: 5px solid #95a4ff;
-    -webkit-text-fill-color: #2A293E;
-    -webkit-box-shadow: 0 0 0px 1000px #f8f4e5 inset;
-    transition: background-color 5000s ease-in-out 0s;
-}
-input:-webkit-autofill:hover{
-    border-bottom: 5px solid #95a4ff;
-    -webkit-text-fill-color: #2A293E;
-    -webkit-box-shadow: 0 0 0px 1000px #f8f4e5 inset;
-    transition: background-color 5000s ease-in-out 0s;
-}
-input:-webkit-autofill:focus{
-    border-bottom: 5px solid #95a4ff;
-    -webkit-text-fill-color: #2A293E;
-    -webkit-box-shadow: 0 0 0px 1000px #f8f4e5 inset;
-    transition: background-color 5000s ease-in-out 0s;
-}
-
-.btn{
-    position: relative;
-    font-family: 'Minecraft';
-    font-size: 30px;
-    line-height: 20px * 2;
-    padding: 0 20px;
-    background: #ffa580;
-    letter-spacing: 2px;
-    transition: .2s all ease-in-out;
-    outline: none;
-    border: 1px solid rgba(0,0,0,1);
-    box-shadow: 3px 3px 1px 1px #95a4ff, 3px 3px 1px 2px rgba(0,0,0,1);
-}
-  .btn:hover{
-    background: rgba(0,0,0,1);
-    color: white;
-    border: 1px solid rgba(0,0,0,1);
-  } */
-
-  body{
-
+menu{
+    padding: 0;
     margin: 0;
-    height: 100vh;
+    width: 100%;
+    height: 86%;
 
-    menu{
-        height: 86%;
+
+    .container{
         width: 100%;
-        margin: 0;
-        padding: 0;
+        height: 100%;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
 
-        .container{
-            background: #DBF9F4;
+        .dialog{
             width: 50%;
-            height: 70%;
-            border-radius: 12px;
+            height: 30%;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            border: 2px solid black;
+            border-radius: 24px;
+            margin-top: 5%;
+            margin-right: 10%;
+            position: relative;
+
+            &::after{
+                content: "";
+                display: block;
+                position: absolute;
+                background: white;
+                width: 50px;
+                height: 50px;
+                transform: rotate(45deg);
+                top: -11.5%;
+                left: 4%;
+                border-top: 2px solid black;
+                border-left: 2px solid black;
+            }
 
             h1{
+                text-align: center;
                 margin: 0;
-                font-size: 55px;
-                font-weight: 500;
+            }
+        }
 
-                &::after{
-                    content: "";
-                    display: block;
-                    width: 114%;
-                    height: 2px;
-                    margin-top: 3%;
-                    background: #FFBD95;
-                    transform: translateX(-7%);
+        h2{
+            margin-top: 3%;
+        }
+
+        form{
+            display: flex;
+            align-items: center;
+
+            &:hover{
+
+                .btnAddListe{
+                    animation: boutonDeplaceDroite 0.5s forwards ease;
+                }
+
+                div{
+                    div{
+                        input{
+                            animation: inputDeplaceGauche 0.5s forwards ease;
+                        }
+                    }
                 }
             }
 
-            .form{
-                width: 100%;
-                height: 100%;
+            .btnAddListe{
+                background: #FFBD95;
+                border: 0;
+                font-size: 18px;
+                padding: 6px 16px;
+                border-radius: 10px;
+                font-family: Minecraft;
+                z-index: 12;
+                transform: translateX(-80%);
+                cursor: pointer;
+                transition: 0.5s ease ;
 
-                form{
+                &:hover{
+                    background: #f1aa7e;
+                }
+            }
+
+            div{
+                
+                div{
+
+                    input{
+                        height: 100%;
+                        width: 60%;
+                        font-size: 22px;
+                        border-radius: 5px;
+                        font-family: Minecraft;
+                        transform: translateX(79%);
+                        z-index: 2;
+                        transition: 0.5s ease ;
+                    }
+                }
+            }
+        }
+
+        a{
+            margin-top: 5%;
+            color: #003B36;
+            background: #DBF9F4;
+            padding: 12px;
+            text-decoration: none;
+            transition: 0.4s ease;
+
+            &:hover{
+                background: #cbf3ec;
+                color: #012724;
+                border-radius: 4px;
+                box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.414);
+            }
+        }
+    }
+
+    .containerListe{
+        height: 90%;
+        
+
+        h1{
+            margin: 0;
+            text-align: center;
+            position: relative;
+
+            &::after{
+                display: block;
+                position: absolute;
+                content: "";
+                width: 12%;
+                height: 2px;
+                background: black;
+                left: 44%;
+            }
+        }
+
+        form{
+            position: absolute;
+            top: 17%;
+            left: 70%;
+            display: flex;
+            align-items: center;
+
+            &:hover{
+
+                .btnAddListe{
+                    animation: boutonDeplaceDroite 0.5s forwards ease;
+                }
+
+                div{
+                    div{
+                        input{
+                            animation: inputDeplaceGauche 0.5s forwards ease;
+                        }
+                    }
+                }
+            }
+
+            .btnAddListe{
+                background: #FFBD95;
+                border: 0;
+                font-size: 18px;
+                padding: 6px 16px;
+                border-radius: 10px;
+                font-family: Minecraft;
+                z-index: 12;
+                transform: translateX(-80%);
+                cursor: pointer;
+                transition: 0.5s ease ;
+
+                &:hover{
+                    background: #f1aa7e;
+                }
+            }
+
+            div{
+                
+                div{
+
+                    input{
+                        height: 100%;
+                        width: 60%;
+                        font-size: 22px;
+                        border-radius: 5px;
+                        font-family: Minecraft;
+                        transform: translateX(79%);
+                        z-index: 2;
+                        transition: 0.5s ease ;
+                    }
+                }
+            }
+        }
+
+        .listes{
+            margin-top: 5%;
+            height: 80%;
+            width: 75%;
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: 12%;
+            overflow-y: scroll;
+
+            .liste{
+                background: #cbf3ec;
+                width: 40%;
+                height: 10%;
+                display: flex;
+                margin-left: 5%;
+                margin-bottom: 30px;
+                color: #003B36;
+                flex-direction: column;
+                overflow: hidden;
+
+                .infoListe{
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    .num{
+                        background: #003B36;
+                        color: #cbf3ec;
+                        height: 40%;
+                        align-self: center;
+                        margin-left: 2%;
+                        padding: 2px;
+                        aspect-ratio: 1/1;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+        
+                    form{
+                        position: relative;
+                        top: 0;
+                        left: 0;
+                        margin-right: 4%;
+                        height: 90%;
+    
+                        a{
+                            height: 70%;
+                            background: none;
+                            cursor: pointer;
+                            margin-bottom: 5%;
+    
+                            &:hover{
+                                box-shadow: none;
+                                background: none;
+                                border-radius: 0;
+                            }
+    
+                            img{
+                                height: 100%;
+                            }
+                        }
+        
+                        button{
+                            border: 0;
+                            background: none;
+                            cursor: pointer;
+                            height: 100%;
+    
+                            img{
+                                height: 100%;
+                            }
+                        }
+    
+                        .rond{
+                            height: 30px;
+                            width: 30px;
+                            border-radius: 50%;
+                            border: 1px solid black;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+    
+                            .fleche{
+                                height: 50%;
+                                width: 50%;
+                                margin-bottom: 25%;
+                                border-bottom: 1px solid black;
+                                border-right: 1px solid black;
+                                transform: rotate(45deg);
+                            }
+                        }
+                    }
+                }
+
+                /* .coursesListe{
+                    background: #003B36;
                     width: 100%;
                     display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    height: 100%;
+                    justify-content: center;
+                    flex-wrap: wrap;
 
-                    div{
-                        border: 2px solid #FFBD95;
-                        width: 50%;
-                        border-radius: 50px;
-                        position: relative;
-                        height: 12%;
-                        margin-top: 5%;
+                    .course{
+                        background: #cbf3ec;
                         display: flex;
+                        border-radius: 50px;
+                        align-items: center;
+                        margin: 12px;
+                        padding: 0 10px;
+                        gap: 5px;
 
-                        .toggle-password, .confirm-toggle-password{
-                            display: flex;
-                            align-items: center;
-                            background: none;
-                            border: 0;
-                            cursor: pointer;
-                            border-radius: 0 50% 50% 0;
-
-                            .contour-oeil{
-                                width: 12px;
-                                height: 21px;
-                                border: 4px solid black;
-                                border-radius: 50%;
-                                position: relative;
-                            
-                                .point1, .point2{
-                                    width: 7px;
-                                    height: 7px;
-                                    background: black;
-                                    border-radius: 50%;
-                                    position: absolute;
-                                    top: 50%;
-                                }
-
-                                .droit{
-                                    animation: yeux 0.4s forwards;
-                                }
-
-                                .gauche{
-                                    animation: yeux2 0.4s forwards;
-                                }
-                            }
-                        }
-
-                        div{
-                            border: 0;
-                            width: 100%;
-                            margin: 0;
-                            height: 100%;
-
-                            div{
-                                width: 100%;
-                                height: 100%;
-                                margin: 0;
-                            }
-                        }
-
-                        input, .toggle-password-container input{
-                            height: 90%;
-                            margin-left: 5%;
-                            width: 100%;
+                        img{
+                            height: 50px;
                             border-radius: 50px;
-                            border: 0;
-                            background: none;
-                            font-family: Minecraft;
-                            font-size: 16px;
-
-                            &:focus{
-                                outline: none;
-                            }
-                        }
-
-                        .toggle-password-container input{
-                            border-radius: 20px 0 0 20px;
-                        }
-
-
-                        label{
-                            position: absolute;
-                            background: #DBF9F4;
-                            top: -24%;
-                            left: 9%;
                         }
                     }
+                } */
+            }
 
-                    .submit{
-                        border-radius: 0;
-                        width: 33%;
+            .liste:nth-child(4n+3), .liste:nth-child(4n+4){
+                background: #003B36;
+                color: #cbf3ec;
 
-                        .btn{
-                            width: 100%;
-                            background: none;
-                            border: 0;
-                            font-family: Minecraftia-Regular;
-                            font-size: 21px;
-                            font-weight: 400;
-                        }
-                    }
+                .num {
+                    background: #cbf3ec;
+                    color: #003B36;
                 }
             }
         }
+    }
 
-        img{
-            position: absolute;
-            height: 24%;
-        }
+    a{
+        margin-top: 5%;
+        color: #003B36;
+        background: #DBF9F4;
+        padding: 12px;
+        text-decoration: none;
+        transition: 0.4s ease;
+        margin-left: 1%;
 
-        .img1{
-            transform: scaleX(-1);
-            top: 62%;
-            left: 80%;
-        }
-
-        .img2{
-            transform: scaleX(-1);
-            top: 55%;
-            left: 8%;
-        }
-
-        .img3{
-            top: 20%;
-            left: 80%;
+        &:hover{
+            background: #cbf3ec;
+            color: #012724;
+            border-radius: 4px;
+            box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.414);
         }
     }
 }
 
 
-tbody > tr > td:first-child{
-    background: #003B36;
-    color: #DBF9F4;
-}
-tbody > tr{
-    background: #DBF9F4;
-    height: 5vh;
-    width: 20vw;
-}
-
-@keyframes yeux {
+@keyframes boutonDeplaceDroite {
     0%{
-        transform: translateX(0);
+        transform: translateX(-80%);
     }
     100%{
-        transform: translateX(70%);
+        transform: translateX(-35%);
     }
 }
 
-@keyframes yeux2 {
+
+@keyframes inputDeplaceGauche {
     0%{
-        transform: translateX(70%);
+        transform: translateX(79%);
     }
     100%{
-        transform: translateX(0);
+        transform: translateX(35%);
     }
-}
-
-@font-face {
-    font-family: 'Minecraft';
-    src: url('font/Minecraftia-Regular.ttf');
 }
