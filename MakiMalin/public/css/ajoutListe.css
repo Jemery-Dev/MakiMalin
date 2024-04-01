@@ -1,0 +1,49 @@
+
+
+menu {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 86%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    .listeDeCourse{
+        background: #003B36;
+        width: 25%;
+        height: 75%;
+        border: 3px solid #FFBD95;
+        border-radius: 12px;
+        box-shadow: 3px 3px 16px rgba(255, 190, 149, 0.655);
+        padding: 12px;
+        color: #cbf3ec;
+        text-align: center;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        h1{
+            margin: 0;
+            position: absolute;
+            background: #003B36;
+            width: 25%;
+            height: 8%;
+            transform: translate(-2%, -16%);
+            border-radius: 12px;
+
+            &::after{
+                display: block;
+                content: "";
+                width: 75%;
+                height: 2px;
+                background: #cbf3ec;
+                margin-left: 12%;
+                margin-bottom: 5%;
+            }
+        }
+
+        .liste{
+            margin-top: 15%;
+        }
+    }
+}

@@ -4,20 +4,26 @@
     {{liste_de_courses.nom}} - Maki Malin
 {% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/ajoutListe.css') }}">
+{% endblock %}
+
 {% block body %}
+<menu>
     {% if liste_de_courses %}
+        <div class="listeDeCourse">
         <h1>{{ liste_de_courses.nom }}</h1>
 
         {% if liste_de_courses.courses|length > 0 %}
-            <ul>
+            <div class="liste">
                 {% for course in liste_de_courses.courses %}
-                    <li>
-                        Nom: {{ course.article.nom }}, 
-                        Quantité: {{ course.quantite }}, 
-                        petite image en chechill : <img src="{{course.article.image}}" />
+                    <div class="article">
+                    <img src="{{course.article.image}}" alt="image {{course.article.nom}}"/>
+                    <h3>{{course.article.nom}} x{{course.quantite}}</h3>
+                        
                         Acheté: {% if course.achete %}Oui{% else %}Non{% endif %}
                         <form method="POST" action="{{ path('app_liste_de_courses_toggle_achete', {'id': liste_de_courses.id, 'courseId': course.id}) }}">
-                            <button type="submit">{% if course.achete %}Untoggle{% else %}Toggle{% endif %} Acheté</button>
+                            <button type="submit">{% if course.achete %}⬤{% else %}◯{% endif %}</button>
                             <input type="hidden" name="_token" value="{{ csrf_token('toggle_achete' ~ course.id) }}">
                         </form>
                         <p>Categories :
@@ -32,12 +38,13 @@
                             <button type="submit">Supprimer la course</button>
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ course.id) }}">
                         </form>
-                    </li>
+                    </div>
                 {% endfor %}
-            </ul>
+            </div>
         {% else %}
             <p>Cette liste de courses est vide.</p>
         {% endif %}
+        </div>
     {% else %}
         {% set redirection_url = path('app_home') %}
         {% autoescape false %}
@@ -46,7 +53,7 @@
             </script>
         {% endautoescape %}
     {% endif %}
-
+    <div class="ajoutArticlesListe">
     <h2>Ajouter des articles à la liste :</h2>
     {% if articles %}
         <ul>
@@ -65,6 +72,8 @@
     {% else %}
         <p>Aucun article trouvé.</p>
     {% endif %}
+    </div>
+    <div class="stats">
     <h2>Statistiques :</h2>
 <p>Total du prix de la liste de courses : {{ totalPrices }}€</p>
 <p>Nombre d'articles dans la liste : {{ totalPriceCount }}</p>
@@ -73,6 +82,8 @@
     <p>Article le plus cher :  {{ maxPriceArticle }} ({{ maxPrice }}€) </p>
     <p>Article le moins cher : {{ minPriceArticle }} ({{ minPrice }}€) </p>
 {% endif %}
+    <a href="{{ path('app_home') }}">Retour à la liste</a>
+    </div>
 
-        <a href="{{ path('app_home') }}">Retour à la liste</a>
-        {% endblock %}
+</menu>
+{% endblock %}

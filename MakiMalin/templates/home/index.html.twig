@@ -22,6 +22,8 @@
                     {% set listeUser = true %}
                 {% endif %}
             {% endfor %}
+
+            {# 
     <table>
         <thead>
             <tr>
@@ -63,10 +65,10 @@
 
                 
         </tbody>
-    </table>
-    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+    </table> #}
+    {# {% if is_granted("IS_AUTHENTICATED_FULLY") %}
         <a href="{{ logout_path('main') }}" class="btn btn-primary">Deconnexion</a>
-    {% endif %}
+    {% endif %} #}
 
             {% if not listeUser %}
                 <div class="container">
