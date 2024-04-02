@@ -40,10 +40,91 @@ menu {
                 margin-left: 12%;
                 margin-bottom: 5%;
             }
+
+        }
+
+        .listeVide{
+            margin-top: 50%;
         }
 
         .liste{
             margin-top: 15%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            form{
+
+                button{
+                    background: none;
+                    border: 0;
+                    cursor: pointer;
+                    color: #cbf3ec;
+                }
+            }
+
+            .article{
+                margin-bottom: 5%;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                width: 90%;
+                height: 15%;
+                background: #002a27;
+
+                img{
+                    height: 60px;
+                }
+
+                form button{
+                    height: 75%;
+                    padding: 0;
+                }
+            }
+        }
+    }
+
+    .ajoutArticlesListe{
+        background: #003B36;
+        color: #cbf3ec;
+        width: 25%;
+        height: 75%;
+        border: #FFBD95 3px solid;
+        border-radius: 12px;
+        box-shadow: 3px 3px 16px #ffbe95a6;
+        padding: 12px;
+    }
+
+    .stats{
+        background: #003B36;
+        color: #cbf3ec;
+        width: 25%;
+        height: 75%;
+        border: #FFBD95 3px solid;
+        border-radius: 12px;
+        box-shadow: 3px 3px 16px #ffbe95a6;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+        a{
+            margin-top: 5%;
+            color: #003B36;
+            background: #DBF9F4;
+            padding: 12px;
+            text-decoration: none;
+            transition: 0.4s ease;
+            margin-left: 1%;
+    
+            &:hover{
+                background: #cbf3ec;
+                color: #012724;
+                border-radius: 4px;
+                box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.414);
+                scale: 1.03;
+            }
         }
     }
 }

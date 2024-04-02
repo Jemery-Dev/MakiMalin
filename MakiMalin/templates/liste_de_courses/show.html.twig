@@ -17,32 +17,33 @@
         {% if liste_de_courses.courses|length > 0 %}
             <div class="liste">
                 {% for course in liste_de_courses.courses %}
+                    
                     <div class="article">
+                    <form method="POST" action="{{ path('app_liste_de_courses_toggle_achete', {'id': liste_de_courses.id, 'courseId': course.id}) }}">
+                        <button type="submit">{% if course.achete %}⬤{% else %}◯{% endif %}</button>
+                        <input type="hidden" name="_token" value="{{ csrf_token('toggle_achete' ~ course.id) }}">
+                    </form>
                     <img src="{{course.article.image}}" alt="image {{course.article.nom}}"/>
                     <h3>{{course.article.nom}} x{{course.quantite}}</h3>
+                                                
+                    {% for categorie in course.article.getCategories() %}
+                        <p>{{ categorie.getNom() }}</p>
+                    {% endfor %}
                         
-                        Acheté: {% if course.achete %}Oui{% else %}Non{% endif %}
-                        <form method="POST" action="{{ path('app_liste_de_courses_toggle_achete', {'id': liste_de_courses.id, 'courseId': course.id}) }}">
-                            <button type="submit">{% if course.achete %}⬤{% else %}◯{% endif %}</button>
-                            <input type="hidden" name="_token" value="{{ csrf_token('toggle_achete' ~ course.id) }}">
-                        </form>
-                        <p>Categories :
-                            <ul>
-                                {% for categorie in course.article.getCategories() %}
-                                    <li>{{ categorie.getNom() }}</li>
-                                {% endfor %}
-                            </ul>
-                        </p>
                         <form method="POST" action="{{ path('app_liste_de_courses_remove_course', {'id': liste_de_courses.id, 'courseId': course.id}) }}">
                             <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit">Supprimer la course</button>
+                            <button type="submit">
+                                <img src="{{ asset('images/icons8-poubelle-64.png') }}" alt="supprimer course"/>
+                            </button>
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ course.id) }}">
                         </form>
                     </div>
                 {% endfor %}
             </div>
         {% else %}
+        <div class="listeVide">
             <p>Cette liste de courses est vide.</p>
+        </div>
         {% endif %}
         </div>
     {% else %}
