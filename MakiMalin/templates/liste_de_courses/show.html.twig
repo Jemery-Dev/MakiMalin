@@ -82,6 +82,9 @@
     <p>Moyenne des prix : {{ averagePrice }}€</p>
     <p>Article le plus cher :  {{ maxPriceArticle }} ({{ maxPrice }}€) </p>
     <p>Article le moins cher : {{ minPriceArticle }} ({{ minPrice }}€) </p>
+        {% for nomMagasin, nombreArticles in articlesParMagasin %}
+            <p>{{ nomMagasin }} - Nombre d'articles : {{ nombreArticles }} | Prix total : {{ prixTotalParMagasin[nomMagasin] }}€</p>
+        {% endfor %}
 {% endif %}
     <a href="{{ path('app_home') }}">Retour à la liste</a>
     </div>
