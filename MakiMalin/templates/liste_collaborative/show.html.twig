@@ -1,46 +1,51 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {% if liste_de_courses %}
-        {{ liste_de_courses.nom }}
-    {% else %}
-        New ListeDeCourses
-    {% endif %}
+    {{liste_de_courses.nom}} - Maki Malin
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/ajoutListe.css') }}">
 {% endblock %}
 
 {% block body %}
+<menu>
     {% if liste_de_courses %}
+        <div class="listeDeCourse">
         <h1>{{ liste_de_courses.nom }}</h1>
 
         {% if liste_de_courses.courses|length > 0 %}
-            <ul>
+            <div class="liste">
                 {% for course in liste_de_courses.courses %}
-                    <li>
-                        Nom: {{ course.article.nom }}, 
-                        Quantité: {{ course.quantite }}, 
-                        Acheté: {% if course.achete %}Oui{% else %}Non{% endif %}
-                        <form method="POST" action="{{ path('app_liste_de_courses_toggle_achete', {'id': liste_de_courses.id, 'courseId': course.id}) }}">
-                            <button type="submit">{% if course.achete %}Untoggle{% else %}Toggle{% endif %} Acheté</button>
-                            <input type="hidden" name="_token" value="{{ csrf_token('toggle_achete' ~ course.id) }}">
-                        </form>
-                        <p>Categories :
-                            <ul>
-                                {% for categorie in course.article.getCategories() %}
-                                    <li>{{ categorie.getNom() }}</li>
-                                {% endfor %}
-                            </ul>
-                        </p>
+                    
+                    <div class="article">
+                    <form method="POST" action="{{ path('app_liste_de_courses_toggle_achete', {'id': liste_de_courses.id, 'courseId': course.id}) }}">
+                        <button type="submit">{% if course.achete %}⬤{% else %}◯{% endif %}</button>
+                        <input type="hidden" name="_token" value="{{ csrf_token('toggle_achete' ~ course.id) }}">
+                    </form>
+                    <img src="{{course.article.image}}" alt="image {{course.article.nom}}"/>
+                    <h3>{{course.article.nom}} x{{course.quantite}}</h3>
+                                                
+                    {% for categorie in course.article.getCategories() %}
+                        <p>{{ categorie.getNom() }}</p>
+                    {% endfor %}
+                        
                         <form method="POST" action="{{ path('app_liste_de_courses_remove_course', {'id': liste_de_courses.id, 'courseId': course.id}) }}">
                             <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit">Supprimer la course</button>
+                            <button type="submit">
+                                <img src="{{ asset('images/icons8-poubelle-64.png') }}" alt="supprimer course"/>
+                            </button>
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ course.id) }}">
                         </form>
-                    </li>
+                    </div>
                 {% endfor %}
-            </ul>
+            </div>
         {% else %}
+        <div class="listeVide">
             <p>Cette liste de courses est vide.</p>
+        </div>
         {% endif %}
+        </div>
     {% else %}
         {% set redirection_url = path('app_home') %}
         {% autoescape false %}
@@ -49,7 +54,7 @@
             </script>
         {% endautoescape %}
     {% endif %}
-
+    <div class="ajoutArticlesListe">
     <h2>Ajouter des articles à la liste :</h2>
     {% if articles %}
         <ul>
@@ -68,6 +73,18 @@
     {% else %}
         <p>Aucun article trouvé.</p>
     {% endif %}
-    
+    </div>
+    <div class="stats">
+    <h2>Revenir :</h2>
+{# <p>Total du prix de la liste de courses : {{ totalPrices }}€</p>
+<p>Nombre d'articles dans la liste : {{ totalPriceCount }}</p>
+{% if totalPriceCount > 0 %}
+    <p>Moyenne des prix : {{ averagePrice }}€</p>
+    <p>Article le plus cher :  {{ maxPriceArticle }} ({{ maxPrice }}€) </p>
+    <p>Article le moins cher : {{ minPriceArticle }} ({{ minPrice }}€) </p>
+{% endif %} #}
     <a href="{{ path('app_home') }}">Retour à la liste</a>
+    </div>
+
+</menu>
 {% endblock %}
