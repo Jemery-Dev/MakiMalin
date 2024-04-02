@@ -139,8 +139,36 @@
                         </tr> #}
                     {% endif %}
                 {% endfor %}
+                
+
+                <div class="listeCollabo">
+
+                <h1>Mes listes collaboraSteves</h1>
+
+                {% for liste_collaborative in app.user.listesCollaborative %}
+                <div class="liste">
+                    <div class="infoListe">
+                        <div class="num">{{ loop.index }}</div>
+                        <h3>{{ liste_collaborative.listeDeCourses.nom }}</h3>
+                        <form action="{{ path('app_liste_de_courses_delete', {'id': liste_collaborative.id}) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette liste ?');">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ liste_collaborative.id) }}">
+                            <a href="{{ path('app_liste_collaborative_show', {'id': liste_collaborative.id}) }}">
+                                <img src="{{asset('images/icon_modifier.png')}}" alt="modifier" />
+                            </a>
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <img src="{{asset('images/icons8-poubelle-64.png')}}" alt="poubelle" />
+                            </button>
+                        </form>
+                    </div>
+                
+                    {% else %}
+                        <h3>Il n'y a pas de liste collaboraSteve</h3>
+                {% endfor %}
+
                 </div>
 
+                </div>
                 </div>
 
                 {% if is_granted("IS_AUTHENTICATED_FULLY") %}

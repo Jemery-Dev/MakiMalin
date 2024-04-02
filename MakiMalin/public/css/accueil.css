@@ -326,6 +326,25 @@ menu{
                     color: #003B36;
                 }
             }
+
+            .listeCollabo{
+                width: 100%;
+                display: flex;
+                text-align: center;
+                flex-wrap: wrap;
+
+                h1{
+                    width: 100%;
+                    text-align: center;
+                }
+
+                h3{
+                    width: 100%;
+                    text-align: center;
+                }
+
+
+            }
         }
     }
 
