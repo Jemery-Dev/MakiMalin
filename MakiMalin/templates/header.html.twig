@@ -2,4 +2,8 @@
     <h1>Maki Malin</h1>
     <h3>Votre Compagnon de Liste de Courses</h2>
     <img src="{{asset('images/logomakimalin.png')}}" alt="Logo Maki Malin" />
+    {% if app.user.username is defined and app.user.username == "Minh" %}
+    <a href="./admin" class="admin">Admin</a>
+    {% endif %}
+
 </header>

@@ -32,6 +32,12 @@ body{
             left: 15%;
 
         }
+
+        .admin{
+            position: absolute;
+            top: 5%;
+            left: 70%;
+        }
     }
     
     
