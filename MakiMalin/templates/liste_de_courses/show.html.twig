@@ -24,7 +24,7 @@
                         <input type="hidden" name="_token" value="{{ csrf_token('toggle_achete' ~ course.id) }}">
                     </form>
                     <img src="{{course.article.image}}" alt="image {{course.article.nom}}"/>
-                    <h3>{{course.article.nom}} x{{course.quantite}}</h3>
+                    <h3> {{course.article.prix * course.quantite}}€ {{course.article.nom}} x{{course.quantite}}</h3>
                                                 
                     {% for categorie in course.article.getCategories() %}
                         <p>{{ categorie.getNom() }}</p>
@@ -60,7 +60,7 @@
         <ul>
             {% for article in articles %}
                 <li>
-                    Nom: {{ article.nom }}
+                    Nom: {{ article.nom }}, Magasin : {{article.magasin.nom}}
                     <form method="POST" action="{{ path('app_liste_de_courses_add_article', {'id': liste_de_courses.id, 'articleId': article.id}) }}">
                         <label for="quantity{{ article.id }}">Quantité :</label>
                         <input type="number" id="quantity{{ article.id }}" name="quantity" value="1" min="1">
