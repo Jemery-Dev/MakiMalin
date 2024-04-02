@@ -51,7 +51,10 @@ class ListeDeCoursesController extends AbstractController
     public function show(ListeDeCourses $listeDeCourse, ArticleRepository $articleRepository): Response
     {
         $articles = $articleRepository->findAll();
-
+        // Tableau associatif pour stocker le nombre d'articles par magasin
+        $articlesParMagasin = [];
+        // Tableau associatif pour stocker le prix total par magasin
+        $prixTotalParMagasin = [];
         $totalPrices = 0;
         $totalPriceCount = 0;
         $maxPrice = null;
@@ -72,6 +75,15 @@ class ListeDeCoursesController extends AbstractController
                 $minPrice = $course->getArticle()->getPrix();
                 $minPriceArticle = $course->getArticle()->getNom();
             }
+            $article = $course->getArticle();
+            $magasin = $article->getMagasin();
+
+            // Calcul du nombre d'articles par magasin
+            $articlesParMagasin[$magasin->getNom()] = isset($articlesParMagasin[$magasin->getNom()]) ? $articlesParMagasin[$magasin->getNom()] + 1 : 1;
+
+            // Calcul du prix total par magasin
+            $prixArticle = $course->getQuantite() * $article->getPrix();
+            $prixTotalParMagasin[$magasin->getNom()] = isset($prixTotalParMagasin[$magasin->getNom()]) ? $prixTotalParMagasin[$magasin->getNom()] + $prixArticle : $prixArticle;
         }
 
         $averagePrice = number_format((($totalPriceCount > 0) ? $totalPrices / $totalPriceCount : 0), 2);
@@ -85,6 +97,8 @@ class ListeDeCoursesController extends AbstractController
             'maxPriceArticle' => $maxPriceArticle,
             'minPrice' => $minPrice,
             'minPriceArticle' => $minPriceArticle,
+            'articlesParMagasin' => $articlesParMagasin,
+            'prixTotalParMagasin' => $prixTotalParMagasin,
         ]);
     }
 
